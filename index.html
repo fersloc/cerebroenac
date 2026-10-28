@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cerebro 3D — Efectos de las drogas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script>
+  /* Siempre inicia en modo día (el botón cambia el tema solo durante la sesión). */
+  document.documentElement.dataset.tema = 'light';
+</script>
+
+<!-- ============================================================
+     DATOS EDITABLES (sin tocar el código).
+     - "regiones": cada región se asocia a las mallas del modelo 3D por texto en el
+       nombre (sin importar mayúsculas ni tildes):
+         "contiene": la malla se asocia si su nombre contiene ese texto.
+         "exacto":   la malla se asocia si su nombre (sin "Allen_" ni _L/_R) es igual.
+         "incluye":  suma las mallas de otras regiones (para grupos).
+     - "drogas": intensidad (alta / media / baja) y frase por región.
+     TODO el contenido es de EJEMPLO, pendiente de validación docente.
+     ============================================================ -->
+<script type="application/json" id="datos">
+{
+  "leyendaContenido": "Contenido de ejemplo, pendiente de validación docente",
+  "cerebroTotal": {
+    "titulo": "Cerebro total",
+    "intro": [
+      "El cerebro es el órgano que controla lo que pensamos, sentimos y hacemos. Está formado por muchas zonas, y cada una cumple una función distinta.",
+      "Las drogas actúan sobre estas zonas y cambian la forma en que el cerebro funciona: pueden afectar las emociones, la memoria, el control de los impulsos y la sensación de recompensa.",
+      "Toca una zona del cerebro, o elígela en la lista, para saber qué hace. También puedes elegir una droga arriba para ver qué zonas se ven más afectadas."
+    ]
+  },
+  "modelo": {
+    "archivo": "cerebro.glb",
+    "cita": "HRA. (2024). Brain, Male (Version 1) [3D model]. NIH 3D.",
+    "url": "https://3d.nih.gov/entries/3DPX-020960",
+    "textoEnlace": "NIH 3D, entrada 3DPX-020960",
+    "atribucion": "National Institute of Allergy and Infectious Disease.",
+    "base": "Basado en Allen Human Reference Atlas – 3D, 2020.",
+    "licencia": "CC BY 4.0",
+    "urlLicencia": "https://creativecommons.org/licenses/by/4.0/",
+    "ocultarPorDefecto": ["white_matter_of_forebrain"]
+  },
+  "intensidades": {
+    "alta":  { "nombre": "Alta",  "color": "#e5383b" },
+    "media": { "nombre": "Media", "color": "#f59e0b" },
+    "baja":  { "nombre": "Baja",  "color": "#e6c200" }
+  },
+  "regiones": [
+    {
+      "id": "corteza_cerebral", "nombre": "Corteza cerebral", "tipo": "grupo", "color": "#d9c3bb",
+      "contiene": ["gyrus", "gyri", "lobule", "precuneus", "cuneus", "_pole_", "operculum", "planum", "limen_insula"],
+      "donde": "Es la capa externa y arrugada del cerebro. Cubre casi todo lo demás.",
+      "funcion": "Se encarga del pensamiento, la percepción, el movimiento y el lenguaje.",
+      "neurotransmisor": "Varios; el principal es el glutamato (por confirmar con el docente).",
+      "adiccion": "El consumo prolongado puede alterar cómo se piensa, se decide y se controla la conducta."
+    },
+    {
+      "id": "corteza_prefrontal", "nombre": "Corteza prefrontal", "tipo": "region", "color": "#3b9dff",
+      "contiene": ["superior_frontal_gyrus", "middle_frontal_gyrus", "inferior_frontal_gyrus", "orbital_gyrus", "gyrus_rectus", "paracingulate", "rostral_gyrus"],
+      "donde": "Parte delantera del cerebro, justo detrás de la frente.",
+      "funcion": "Ayuda a planificar, tomar decisiones y frenar los impulsos.",
+      "neurotransmisor": "Dopamina (la regula) y glutamato (por confirmar).",
+      "adiccion": "Si su control se debilita, cuesta frenar el impulso de consumir aunque la persona conozca las consecuencias."
+    },
+    {
+      "id": "sistema_limbico", "nombre": "Sistema límbico", "tipo": "grupo", "color": "#6ee7b7",
+      "contiene": ["cingulate_gyrus", "parahippocampal", "fornix", "septal_nuclei", "mammillary_region", "anterior_nuclear_complex"],
+      "incluye": ["amigdala", "hipocampo", "nucleo_accumbens"],
+      "nota": "Agrupación propuesta, pendiente de validar con el docente.",
+      "donde": "Conjunto de zonas profundas, en el centro del cerebro, bajo la corteza.",
+      "funcion": "Participa en las emociones, la memoria y la motivación.",
+      "neurotransmisor": "Varios (por confirmar con el docente).",
+      "adiccion": "Une emociones y recuerdos con el consumo: por eso ciertos lugares o estados de ánimo pueden despertar el deseo de consumir."
+    },
+    {
+      "id": "amigdala", "nombre": "Amígdala", "tipo": "region", "color": "#a78bfa",
+      "exacto": ["amygdaloid_complex", "anterior_amygdaloid_area", "central_nuclear_group", "lateral_nucleus", "basolateral_nucleus_basal_nucleus", "basomedial_nucleus_accessory_basal_nucleus", "anterior_cortical_nucleus", "posterior_cortical_nucleus", "medial_nucleus", "amygdalohippocampal_area"],
+      "donde": "Dos estructuras con forma de almendra, una en cada lado, dentro del lóbulo temporal.",
+      "funcion": "Procesa emociones como el miedo y la ansiedad, y da carga emocional a los recuerdos.",
+      "neurotransmisor": "Varios (por confirmar con el docente).",
+      "adiccion": "Participa en el malestar, la ansiedad y el estrés de la abstinencia, y en el deseo intenso de consumir (craving) ante ciertas señales."
+    },
+    {
+      "id": "hipocampo", "nombre": "Hipocampo", "tipo": "region", "color": "#34d399",
+      "contiene": ["hippocampus"],
+      "donde": "Dentro del lóbulo temporal, curvado, junto a la amígdala.",
+      "funcion": "Forma nuevos recuerdos y ayuda a recordar lugares y situaciones.",
+      "neurotransmisor": "Glutamato (por confirmar con el docente).",
+      "adiccion": "Guarda el recuerdo de los lugares y momentos asociados al consumo, que luego pueden gatillar el craving."
+    },
+    {
+      "id": "circuito_recompensa", "nombre": "Circuito de recompensa", "tipo": "grupo", "color": "#f472b6",
+      "incluye": ["nucleo_accumbens", "area_tegmental_ventral"],
+      "donde": "Camino que va desde el mesencéfalo (área tegmental ventral) hasta el núcleo accumbens y la corteza prefrontal.",
+      "funcion": "Hace que sintamos placer y motivación con cosas importantes, como comer o socializar.",
+      "neurotransmisor": "Dopamina.",
+      "adiccion": "Las drogas activan este circuito de forma intensa y repetida; el cerebro aprende a buscar la sustancia."
+    },
+    {
+      "id": "nucleo_accumbens", "nombre": "Núcleo accumbens", "tipo": "region", "color": "#f472b6",
+      "contiene": ["nucleus_accumbens"],
+      "donde": "Zona pequeña y profunda, en la base de la parte delantera del cerebro.",
+      "funcion": "Es un centro clave del placer y la motivación.",
+      "neurotransmisor": "Dopamina.",
+      "adiccion": "Cuando la dopamina sube aquí se siente recompensa; las drogas la elevan más que las recompensas naturales."
+    },
+    {
+      "id": "area_tegmental_ventral", "nombre": "Área tegmental ventral (ATV)", "tipo": "region", "color": "#22d3ee",
+      "contiene": ["vta_referencial"],
+      "nota": "Ubicación aproximada. El modelo 3D no trae el ATV: se muestra una forma simple, dentro del mesencéfalo, solo como referencia.",
+      "donde": "En el mesencéfalo, en la parte baja y central del cerebro.",
+      "funcion": "Fabrica dopamina y la envía al núcleo accumbens y a la corteza prefrontal.",
+      "neurotransmisor": "Dopamina.",
+      "adiccion": "Es el punto de partida de la señal de recompensa que las drogas activan."
+    }
+  ],
+  "jerarquia": [
+    { "id": "corteza_cerebral", "hijos": [ { "id": "corteza_prefrontal" } ] },
+    { "id": "sistema_limbico", "hijos": [ { "id": "amigdala" }, { "id": "hipocampo" }, { "id": "nucleo_accumbens" } ] },
+    { "id": "circuito_recompensa", "hijos": [ { "id": "nucleo_accumbens" }, { "id": "area_tegmental_ventral" } ] }
+  ],
+  "drogas": [
+    {
+      "id": "cocaina", "nombre": "Cocaína", "tipo": "Estimulante",
+      "resumen": "Aumenta mucho la dopamina en el circuito de recompensa y deja menos freno para el control de impulsos.",
+      "regiones": {
+        "nucleo_accumbens": { "intensidad": "alta", "frase": "La dopamina sube con fuerza y produce una sensación intensa de recompensa." },
+        "area_tegmental_ventral": { "intensidad": "alta", "frase": "Es el origen de la dopamina que la droga hace actuar con más fuerza." },
+        "corteza_prefrontal": { "intensidad": "media", "frase": "Se debilita el control de impulsos y la toma de decisiones." },
+        "amigdala": { "intensidad": "media", "frase": "Se asocia con ansiedad y con el deseo de consumir ante ciertas señales." },
+        "hipocampo": { "intensidad": "baja", "frase": "Ayuda a recordar los lugares y situaciones ligados al consumo." }
+      }
+    },
+    {
+      "id": "alcohol", "nombre": "Alcohol", "tipo": "Depresor",
+      "resumen": "Disminuye la actividad de muchas zonas del cerebro; afecta el juicio, la memoria y el control de la conducta.",
+      "regiones": {
+        "corteza_prefrontal": { "intensidad": "alta", "frase": "Disminuye el juicio y el control de impulsos." },
+        "hipocampo": { "intensidad": "alta", "frase": "Dificulta formar recuerdos; puede haber lagunas de memoria." },
+        "amigdala": { "intensidad": "media", "frase": "Cambia las emociones: puede reducir el miedo o aumentar la irritabilidad." },
+        "nucleo_accumbens": { "intensidad": "media", "frase": "Participa en la sensación de recompensa asociada al consumo." },
+        "area_tegmental_ventral": { "intensidad": "baja", "frase": "Interviene de forma indirecta en la liberación de dopamina." }
+      }
+    },
+    {
+      "id": "pasta_base", "nombre": "Pasta base", "tipo": "Estimulante",
+      "resumen": "Sustancia fumada de efecto breve e intenso. Activa con mucha fuerza el circuito de recompensa y se asocia a un deseo de consumir muy fuerte.",
+      "regiones": {
+        "nucleo_accumbens": { "intensidad": "alta", "frase": "La dopamina sube de golpe y deja un deseo intenso de repetir el consumo." },
+        "area_tegmental_ventral": { "intensidad": "alta", "frase": "Es el origen de la dopamina que la sustancia hace actuar con fuerza." },
+        "corteza_prefrontal": { "intensidad": "alta", "frase": "Se debilita el control de impulsos y la capacidad de decidir." },
+        "amigdala": { "intensidad": "media", "frase": "Se asocia con ansiedad, irritabilidad y malestar entre un consumo y otro." },
+        "hipocampo": { "intensidad": "baja", "frase": "Ayuda a recordar los lugares y situaciones ligados al consumo." }
+      }
+    }
+  ]
+}
+</script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<style>
+  /* Paleta tomada de la web de ENAC: azul marino, naranja, índigo y grises claros.
+     Tipografías: Open Sans (texto y títulos) y Nunito 800 (títulos grandes). */
+  :root[data-tema="dark"] {
+    --fondo: #0f0f26;  --panel: #1a1a45;  --panel2: #24235a;  --borde: #38377a;
+    --texto: #ffffff;  --texto2: #c9c9e3; --acento: #ff6b00;  --acento-texto: #14143a;
+    --enlace: #ffb27a; --aviso-bg: #3a2410; --aviso-tx: #ffc799; --aviso-bd: #5c3a1c;
+    --sombra: rgba(0,0,0,.5); --velo: rgba(15,15,38,.82);
+  }
+  :root, :root[data-tema="light"] {
+    --fondo: #efefef;  --panel: #ffffff;  --panel2: #f3f3f8;  --borde: #d6d6e4;
+    --texto: #14143a;  --texto2: #4a4a66; --acento: #3b3a9e;  --acento-texto: #ffffff;
+    --enlace: #3b3a9e; --aviso-bg: #fff1e6; --aviso-tx: #8a3600; --aviso-bd: #ffd2b0;
+    --sombra: rgba(20,20,58,.18); --velo: rgba(255,255,255,.88);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--fondo); color: var(--texto);
+    font-family: "Open Sans", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; font-size: 16px; }
+  button, input { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  a { color: var(--enlace); }
+
+  .app { display: grid; height: 100dvh; grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+    grid-template-columns: 300px minmax(0, 1fr) 360px;
+    grid-template-areas: "cab cab cab" "aviso aviso aviso" "drogas drogas drogas" "lista centro ficha" "pie pie pie"; }
+
+  /* --- Encabezado --- */
+  .cab { grid-area: cab; display: flex; align-items: center; gap: 16px; padding: 8px 16px;
+    background: var(--panel); border-bottom: 1px solid var(--borde); }
+  .logo { background: #fff; border-radius: 14px; padding: 6px 12px; display: inline-flex; align-items: center; flex: none; }
+  .logo img { display: block; height: 40px; width: auto; }
+  .titulo { display: flex; flex-direction: column; line-height: 1.15; margin-right: auto; min-width: 0; }
+  .titulo strong { font-family: Nunito, "Open Sans", sans-serif; font-weight: 800; font-size: 24px; }
+  .titulo span { color: var(--texto2); font-size: 14px; }
+
+  /* --- Aviso y barra de drogas --- */
+  .aviso { grid-area: aviso; background: var(--aviso-bg); color: var(--aviso-tx); padding: 6px 12px;
+    font-size: 14px; text-align: center; font-weight: 700; border-bottom: 1px solid var(--aviso-bd); }
+  .drogas { grid-area: drogas; display: flex; gap: 8px; align-items: center; padding: 10px 16px;
+    background: var(--panel); border-bottom: 1px solid var(--borde); overflow-x: auto; }
+  .drogas .etiqueta { color: var(--texto2); font-size: 14px; font-weight: 600; white-space: nowrap; }
+  /* Botones "pastilla", como en la web de ENAC */
+  .btn { background: transparent; border: 2px solid var(--acento); color: var(--enlace); border-radius: 999px;
+    padding: 6px 16px; min-height: 40px; white-space: nowrap; font-weight: 700; }
+  :root[data-tema="dark"] .btn { border-color: var(--borde); color: var(--texto); }
+  .btn:hover { border-color: var(--acento); }
+  .btn.activo { background: var(--acento); border-color: var(--acento); color: var(--acento-texto); }
+  .btn:focus-visible, input:focus-visible, .item:focus-visible, .chip:focus-visible { outline: 3px solid #ff9a4d; outline-offset: 2px; }
+  .btn-regiones { display: none; }
+  .btn-atras { margin-left: auto; }
+  .btn:disabled { opacity: .4; cursor: default; }
+
+  /* --- Lista de regiones --- */
+  .lista { grid-area: lista; background: var(--panel); border-right: 1px solid var(--borde);
+    display: flex; flex-direction: column; min-height: 0; }
+  .lista input[type=search] { margin: 12px; padding: 10px 14px; border-radius: 999px;
+    border: 2px solid var(--borde); background: var(--fondo); }
+  .arbol { overflow-y: auto; padding: 10px 12px 10px; flex: 1; }
+  .item { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left;
+    background: transparent; border: 0; padding: 9px 10px; border-radius: 12px; min-height: 40px; font-weight: 600; }
+  .item:hover { background: var(--panel2); }
+  .item.activo { background: var(--panel2); outline: 2px solid var(--acento); outline-offset: -2px; }
+  .item.hijo { margin-left: 22px; width: calc(100% - 22px); font-weight: 400; }
+  .item.total { font-weight: 800; margin-bottom: 6px; }
+  .punto { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+  .item .badge { margin-left: auto; font-size: 12px; font-weight: 800; padding: 2px 8px;
+    border-radius: 999px; color: #14143a; }
+  .vacio { color: var(--texto2); padding: 10px; }
+
+  /* --- Escena --- */
+  .centro { grid-area: centro; position: relative; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  .lienzo { position: relative; flex: 1; min-height: 0; }
+  .lienzo canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+  .estado { position: absolute; left: 12px; top: 10px; background: var(--velo); padding: 6px 10px;
+    border-radius: 12px; font-size: 14px; pointer-events: none; }
+  .estado:empty { display: none; }
+  .leyenda { position: absolute; right: 10px; top: 10px; background: var(--velo);
+    padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; display: none; gap: 10px; align-items: center; }
+  .leyenda.on { display: flex; }
+  .leyenda span { display: inline-flex; align-items: center; gap: 4px; }
+  .etiqueta-hover { position: absolute; z-index: 5; pointer-events: none; background: #14143a; color: #fff;
+    border: 1px solid #ff6b00; border-radius: 999px; padding: 4px 12px; font-size: 14px; font-weight: 700;
+    white-space: nowrap; box-shadow: 0 2px 10px var(--sombra); }
+  .etiqueta-hover[hidden] { display: none; }
+  .controles { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 10px 16px;
+    background: var(--panel); border-top: 1px solid var(--borde); }
+  .controles label { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--texto2); font-weight: 600; }
+  .controles input[type=range] { width: 130px; accent-color: var(--acento); }
+  .controles input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--acento); }
+  .blanca { display: flex; flex-direction: column; gap: 2px; max-width: 320px; }
+  .ayuda { font-size: 12px; color: var(--texto2); line-height: 1.3; font-weight: 400; }
+
+  /* --- Ficha --- */
+  .ficha { grid-area: ficha; background: var(--panel); border-left: 1px solid var(--borde);
+    overflow-y: auto; min-height: 0; }
+  .ficha-cab { display: none; }
+  .ficha-cuerpo { padding: 18px; }
+  .ficha h2 { margin: 0 0 4px; font-family: Nunito, "Open Sans", sans-serif; font-weight: 800; font-size: 28px; line-height: 1.1; }
+  .ficha h3 { margin: 16px 0 4px; font-size: 13px; color: var(--texto2); text-transform: uppercase; letter-spacing: .05em; font-weight: 700; }
+  .ficha p { margin: 0; line-height: 1.6; }
+  .tipo { color: var(--texto2); font-size: 14px; }
+  /* Tarjeta de efecto, al estilo de los testimonios de ENAC: marino con comilla naranja */
+  .caja { position: relative; background: #1a1a45; color: #fff; border-radius: 20px; padding: 14px 16px 14px 52px; margin-top: 16px; }
+  .caja::before { content: "\201C"; position: absolute; left: 14px; top: -2px; font-family: Georgia, serif;
+    font-size: 64px; line-height: 1; color: #ff7a2f; font-weight: 700; }
+  .nota { color: var(--aviso-tx); background: var(--aviso-bg); border-radius: 12px; padding: 8px 12px; font-size: 14px; margin-top: 10px; }
+  .badge-int { display: inline-block; font-weight: 800; padding: 2px 12px; border-radius: 999px; color: #14143a; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .chip { border: 2px solid var(--borde); background: var(--panel2); border-radius: 999px; padding: 6px 14px; min-height: 36px; font-weight: 600; }
+  .chip:hover { border-color: var(--acento); }
+
+  /* --- Pie --- */
+  .pie { grid-area: pie; background: #14143a; color: #c9c9e3; padding: 8px 16px; font-size: 12px; line-height: 1.4;
+    border-top: 3px solid #ff6b00; }
+  .pie a { color: #ffb27a; }
+
+  /* --- Pantallas angostas (no probado aún; la revisión de celular viene después) --- */
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; grid-template-rows: auto auto auto minmax(0, 1fr) auto auto;
+      grid-template-areas: "cab" "aviso" "drogas" "centro" "ficha" "pie"; }
+    .titulo span { display: none; }
+    .aviso { font-size: 12px; padding: 4px 8px; }
+    .btn-regiones { display: inline-block; }
+    .lista { position: fixed; z-index: 20; left: 0; top: 0; bottom: 0; width: min(88vw, 340px);
+      transform: translateX(-102%); transition: transform .2s; box-shadow: 4px 0 20px var(--sombra); }
+    .lista.abierta { transform: none; }
+    .ficha { border-left: 0; border-top: 1px solid var(--borde); max-height: 42vh; }
+    .ficha.plegada { max-height: none; }
+    .ficha.plegada .ficha-cuerpo { display: none; }
+    .ficha-cab { display: flex; justify-content: space-between; align-items: center; width: 100%;
+      padding: 10px 16px; background: var(--panel2); border: 0; border-bottom: 1px solid var(--borde);
+      position: sticky; top: 0; }
+    .controles { gap: 8px 12px; padding: 8px 10px; }
+    .controles input[type=range] { width: 100px; }
+    .leyenda { top: auto; bottom: 8px; right: 8px; }
+  }
+</style>
+
+</head>
+
+<body>
+<div class="app">
+  <header class="cab">
+    <span class="logo"><img src="Logotipo.svg" alt="Logotipo ENAC" height="40"></span>
+    <div class="titulo"><strong>Cerebro 3D</strong><span>Efectos de las drogas en el cerebro</span></div>
+    <button class="btn" id="btnTema" type="button" aria-pressed="false">☀ Modo día</button>
+  </header>
+
+  <div class="aviso" id="aviso"></div>
+
+  <div class="drogas" id="drogas" role="group" aria-label="Elegir droga">
+    <button class="btn btn-regiones" id="btnRegiones" type="button">☰ Regiones</button>
+    <span class="etiqueta">Droga:</span>
+    <button class="btn btn-atras" id="btnAtras" type="button" disabled aria-label="Volver a la vista anterior">← Atrás</button>
+  </div>
+
+  <aside class="lista" id="lista" aria-label="Regiones del cerebro">
+    <input type="search" id="buscar" placeholder="Buscar región…" aria-label="Buscar región">
+    <div class="arbol" id="arbol"></div>
+  </aside>
+
+  <main class="centro">
+    <div class="lienzo" id="lienzo">
+      <div class="estado" id="estado">Cargando modelo…</div>
+      <div class="leyenda" id="leyenda"></div>
+      <div class="etiqueta-hover" id="etiquetaHover" hidden></div>
+    </div>
+    <div class="controles">
+      <label>Opacidad <input type="range" id="sOpacidad" min="5" max="100" value="100" aria-label="Opacidad general"></label>
+      <label>Separación <input type="range" id="sSeparacion" min="0" max="100" value="0" aria-label="Separación de piezas"></label>
+      <button class="btn" id="btnAuto" type="button" aria-pressed="false">Rotación automática</button>
+      <button class="btn" id="btnReiniciar" type="button">Reiniciar vista</button>
+      <div class="blanca">
+        <label><input type="checkbox" id="chkBlanca"> Mostrar cableado interno (sustancia blanca)</label>
+        <span class="ayuda">Son las fibras que conectan las zonas. Tapa las estructuras profundas, por eso está oculta.</span>
+      </div>
+    </div>
+  </main>
+
+  <aside class="ficha" id="ficha" aria-live="polite">
+    <button class="ficha-cab" id="fichaCab" type="button"><strong id="fichaTitulo">Ficha</strong><span id="fichaFlecha">▾</span></button>
+    <div class="ficha-cuerpo" id="fichaCuerpo"></div>
+  </aside>
+
+  <footer class="pie" id="pie"></footer>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+/* =========================================================
+   1. DATOS Y UTILIDADES
+   ========================================================= */
+const D = JSON.parse(document.getElementById('datos').textContent);
+const $ = (id) => document.getElementById(id);
+const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const REG = Object.fromEntries(D.regiones.map(r => [r.id, r]));
+const DROGA = Object.fromEntries(D.drogas.map(d => [d.id, d]));
+const COLOR_FONDO_SIN_REGION = new THREE.Color('#5d6b7e');   // se cambia con el tema
+const COLOR_CORTEZA_BASE = new THREE.Color(REG.corteza_cerebral.color);
+
+/* Estado de la interfaz */
+const estado = { region: null, droga: null, opacidad: 1, separacion: 0, sustanciaBlanca: false };
+
+/* =========================================================
+   2. ESCENA
+   ========================================================= */
+const cont = $('lienzo');
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+cont.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0f0f26);
+const camera = new THREE.PerspectiveCamera(40, 1, 0.05, 100);
+/* Encuadre: distancia a la que un objeto de radio `radio` ocupa `fraccion` del lado más corto de la vista */
+function distanciaPara(radio, fraccion) {
+  const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+  return radio / (fraccion * Math.min(tanV, tanV * camera.aspect));
+}
+const DIR_VISTA = new THREE.Vector3(3.2, 1.6, 3.4).normalize();   // dirección inicial (algo desde arriba y de lado)
+const RADIO_CEREBRO = 1.15, FRACCION_CEREBRO = 0.8;               // el cerebro completo llena ~70 % de la vista
+const VISTA_INICIAL = {
+  get pos() { return DIR_VISTA.clone().multiplyScalar(distanciaPara(RADIO_CEREBRO, FRACCION_CEREBRO)); },
+  target: new THREE.Vector3(0, 0, 0)
+};
+camera.position.copy(VISTA_INICIAL.pos);
+
+const luzHemi = new THREE.HemisphereLight(0xffffff, 0x445066, 1.1);
+scene.add(luzHemi);
+const luz = new THREE.DirectionalLight(0xffffff, 1.6);
+camera.add(luz); luz.position.set(1, 2, 3); scene.add(camera);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.minDistance = 1.1;
+controls.maxDistance = 9;
+controls.autoRotateSpeed = 1.2;
+
+function ajustarTamano() {
+  const w = cont.clientWidth, h = cont.clientHeight;
+  if (!w || !h) return;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h; camera.updateProjectionMatrix();
+}
+new ResizeObserver(ajustarTamano).observe(cont);
+
+/* raíz del modelo: se centra y se escala a ~2 unidades */
+const raiz = new THREE.Group();
+scene.add(raiz);
+
+/* =========================================================
+   3. CARGA DEL MODELO (o formas simples si falta el .glb)
+   ========================================================= */
+let mallas = [];            // todas las mallas del cerebro
+let centroModelo = new THREE.Vector3();
+
+function prepararMalla(m) {
+  // Cada pieza tiene su propio material para controlar color y opacidad por separado
+  const base = Array.isArray(m.material) ? m.material[0] : m.material;
+  m.material = new THREE.MeshStandardMaterial({
+    color: 0x888888, roughness: 0.55, metalness: 0, transparent: true, opacity: 1,
+    side: THREE.FrontSide   // una sola pasada por pieza (rendimiento)
+  });
+  if (base && base.map) m.material.map = null;
+  m.userData.nombreNorm = norm(m.name);
+  m.userData.oculta = (D.modelo.ocultarPorDefecto || []).some(t => m.userData.nombreNorm.includes(norm(t)));
+  m.userData.opActual = 1;
+  m.userData.hov = 0;
+  m.userData.colActual = new THREE.Color(0x888888);
+  m.geometry.computeBoundingBox();
+  m.userData.centro = m.geometry.boundingBox.getCenter(new THREE.Vector3());
+  mallas.push(m);
+}
+
+/* ATV: el modelo no la trae. Forma simple y aproximada dentro de midbrain_tegmentum:
+   dos formas alargadas (una a cada lado de la línea media), hacia abajo y adelante en el tegmento. */
+function crearATV() {
+  const teg = mallas.filter(m => m.userData.nombreNorm.includes('midbrain_tegmentum'));
+  if (!teg.length) return;
+  const caja = new THREE.Box3();
+  teg.forEach(m => caja.union(m.geometry.boundingBox));
+  const t = caja.getSize(new THREE.Vector3());
+  const cx = (caja.min.x + caja.max.x) / 2, cy = caja.min.y + t.y * 0.3, cz = caja.min.z + t.z * 0.68;
+  [['L', -1], ['R', 1]].forEach(([lado, signo]) => {
+    const g = new THREE.SphereGeometry(1, 24, 16);
+    g.scale(0.0028, 0.0032, 0.0075);                 // alargada de adelante hacia atrás
+    g.rotateX(-0.3); g.rotateY(signo * 0.25);        // leve inclinación, como un abanico
+    g.translate(cx + signo * 0.0042, cy, cz);
+    const m = new THREE.Mesh(g); m.name = 'VTA_referencial_' + lado;
+    raiz.add(m); prepararMalla(m);
+  });
+}
+
+function formasSimples() {
+  // Respaldo para probar la interfaz sin cerebro.glb. Los nombres imitan al modelo real.
+  const defs = [
+    ['Allen_brain_outline', [0, 0, 0], [0.9, 0.7, 1.1]],
+    ['Allen_superior_frontal_gyrus_L', [-0.3, 0.25, 0.8], [0.35, 0.3, 0.3]],
+    ['Allen_superior_frontal_gyrus_R', [0.3, 0.25, 0.8], [0.35, 0.3, 0.3]],
+    ['Allen_amygdaloid_complex_L', [-0.4, -0.2, 0.2], [0.12, 0.12, 0.12]],
+    ['Allen_amygdaloid_complex_R', [0.4, -0.2, 0.2], [0.12, 0.12, 0.12]],
+    ['Allen_body_of_hippocampus_L', [-0.4, -0.2, -0.2], [0.1, 0.1, 0.35]],
+    ['Allen_body_of_hippocampus_R', [0.4, -0.2, -0.2], [0.1, 0.1, 0.35]],
+    ['Allen_nucleus_accumbens_L', [-0.12, -0.15, 0.5], [0.08, 0.08, 0.08]],
+    ['Allen_nucleus_accumbens_R', [0.12, -0.15, 0.5], [0.08, 0.08, 0.08]],
+    ['Allen_substantia_nigra_L', [-0.1, -0.45, -0.1], [0.06, 0.06, 0.06]],
+    ['Allen_substantia_nigra_R', [0.1, -0.45, -0.1], [0.06, 0.06, 0.06]],
+  ];
+  defs.forEach(([n, p, s]) => {
+    const g = new THREE.SphereGeometry(1, 24, 16); g.scale(...s); g.translate(...p);
+    const m = new THREE.Mesh(g); m.name = n; raiz.add(m); prepararMalla(m);
+  });
+}
+
+async function cargarModelo() {
+  try {
+    const gltf = await new GLTFLoader().loadAsync(D.modelo.archivo, (e) => {
+      if (e.total) $('estado').textContent = 'Cargando modelo… ' + Math.round(e.loaded / e.total * 100) + '%';
+    });
+    gltf.scene.traverse(o => { if (o.isMesh) prepararMalla(o); });
+    raiz.add(gltf.scene);
+    // Se centra y escala el conjunto completo
+    const caja = new THREE.Box3().setFromObject(gltf.scene);
+    const tam = caja.getSize(new THREE.Vector3());
+    const k = 2 / Math.max(tam.x, tam.y, tam.z);
+    centroModelo = caja.getCenter(new THREE.Vector3());
+    raiz.scale.setScalar(k);
+    raiz.position.copy(centroModelo).multiplyScalar(-k);
+    crearATV();
+    $('estado').textContent = '';
+  } catch (err) {
+    console.warn('No se pudo cargar ' + D.modelo.archivo + '. Se usan formas simples.', err);
+    formasSimples();
+    centroModelo.set(0, 0, 0);
+    $('estado').textContent = 'Sin cerebro.glb: se muestran formas simples de prueba';
+  }
+}
+
+/* =========================================================
+   4. ASOCIAR MALLAS CON REGIONES (por texto en el nombre)
+   ========================================================= */
+const cuerpoNombre = (m) => m.userData.nombreNorm.replace(/^allen_/, '').replace(/_(l|r)$/, '');
+
+function asociarRegiones() {
+  const directo = {};
+  D.regiones.forEach(r => {
+    const set = new Set();
+    mallas.forEach(m => {
+      const n = m.userData.nombreNorm, b = cuerpoNombre(m);
+      if ((r.contiene || []).some(t => n.includes(norm(t))) || (r.exacto || []).some(t => b === norm(t))) set.add(m);
+    });
+    directo[r.id] = set;
+  });
+  // Resolver "incluye" (grupos) de forma recursiva
+  const cache = {};
+  const resolver = (id, pila = []) => {
+    if (cache[id]) return cache[id];
+    if (pila.includes(id)) return directo[id];
+    const s = new Set(directo[id]);
+    (REG[id].incluye || []).forEach(h => resolver(h, [...pila, id]).forEach(m => s.add(m)));
+    return (cache[id] = s);
+  };
+  D.regiones.forEach(r => { r.mallas = resolver(r.id); });
+
+  // Para cada malla, regiones ordenadas de la más específica (menos piezas) a la más general
+  mallas.forEach(m => {
+    m.userData.regiones = D.regiones.filter(r => r.mallas.has(m)).sort((a, b) => a.mallas.size - b.mallas.size);
+    m.userData.principal = m.userData.regiones[0] || null;
+  });
+
+  // Informe en consola
+  console.log('Mallas del modelo (' + mallas.length + '):', mallas.map(m => m.name));
+  D.regiones.forEach(r => {
+    if (!r.mallas.size) console.warn('Región sin mallas asociadas:', r.nombre);
+    else console.log(r.nombre + ': ' + r.mallas.size + ' mallas');
+  });
+  const sin = mallas.filter(m => !m.userData.principal).map(m => m.name);
+  console.warn('Mallas sin región (' + sin.length + ', quedan semitransparentes y no seleccionables):', sin);
+}
+
+/* =========================================================
+   5. ASPECTO (color y opacidad según selección / droga)
+   ========================================================= */
+let OPACIDAD_FANTASMA = 0.09;   // piezas "apagadas" cuando hay selección
+const OPACIDAD_FONDO = 0.1;       // mallas sin región
+
+function intensidadDeMalla(m, drogaId) {
+  if (!drogaId) return null;
+  for (const r of m.userData.regiones) {
+    const e = DROGA[drogaId].regiones[r.id];
+    if (e) return e;
+  }
+  return null;
+}
+
+function actualizarAspecto() {
+  const sel = estado.region ? REG[estado.region] : null;
+  mallas.forEach(m => {
+    const u = m.userData, prin = u.principal;
+    let op, col, brillo = 0, pickable = !!prin, dest = false;   // dest: pieza destacada (no la afecta el deslizador de opacidad)
+    const inte = intensidadDeMalla(m, estado.droga);
+    const colInt = inte ? new THREE.Color(D.intensidades[inte.intensidad].color) : null;
+
+    if (u.oculta && !estado.sustanciaBlanca) {
+      op = 0; col = COLOR_FONDO_SIN_REGION; pickable = false;
+    } else if (!prin) {
+      op = (u.oculta && !sel && !estado.droga) ? 0.25 : OPACIDAD_FONDO; col = COLOR_FONDO_SIN_REGION; pickable = false;
+    } else if (sel) {
+      if (sel.mallas.has(m)) { dest = true; op = 1; col = colInt || new THREE.Color(prin.color); brillo = 0.25; }
+      else { op = OPACIDAD_FANTASMA; col = COLOR_FONDO_SIN_REGION; pickable = false; }
+    } else if (estado.droga) {
+      if (inte) { dest = true; op = 1; col = colInt; brillo = 0.2; }
+      else { op = OPACIDAD_FANTASMA; col = COLOR_FONDO_SIN_REGION; pickable = false; }
+    } else {
+      op = 1;
+      col = (prin.id === 'corteza_cerebral') ? COLOR_CORTEZA_BASE : new THREE.Color(prin.color);
+    }
+    u.dest = dest; u.opObjetivo = op; u.colObjetivo = col; u.brillo = brillo; u.pickable = pickable;
+  });
+}
+
+/* Interpolación suave de color/opacidad y separación (vista explotada) */
+const FACTOR_SEPARACION = 0.6;
+function animarAspecto() {
+  mallas.forEach(m => {
+    const u = m.userData, mat = m.material;
+    // Con algo seleccionado o una droga elegida, el deslizador solo atenúa el resto del cerebro
+    const objetivo = u.dest ? u.opObjetivo : u.opObjetivo * estado.opacidad;
+    u.opActual += (objetivo - u.opActual) * 0.2;
+    if (Math.abs(objetivo - u.opActual) < 0.003) u.opActual = objetivo;
+    mat.opacity = u.opActual;
+    mat.visible = u.opActual > 0.01;
+    mat.depthWrite = u.opActual > 0.97;
+    u.colActual.lerp(u.colObjetivo, 0.2);
+    mat.color.copy(u.colActual);
+    // brillo al pasar el mouse: se suma al brillo propio, sin tocar el color de intensidad
+    const h = (hoverRegion && u.pickable && hoverRegion.mallas.has(m)) ? 1 : 0;
+    u.hov += (h - u.hov) * 0.25;
+    if (Math.abs(h - u.hov) < 0.01) u.hov = h;
+    mat.emissive.copy(u.colActual).multiplyScalar(u.brillo + 0.35 * u.hov);
+    // separación: cada pieza se aleja del centro del modelo
+    m.position.copy(u.centro).sub(centroModelo).multiplyScalar(estado.separacion * FACTOR_SEPARACION);
+  });
+}
+
+/* =========================================================
+   6. CÁMARA ANIMADA
+   ========================================================= */
+let anim = null;
+function irA(pos, target, dur = 700) {
+  anim = { t0: performance.now(), dur, p0: camera.position.clone(), p1: pos.clone(),
+           t0v: controls.target.clone(), t1v: target.clone() };
+}
+function pasoCamara(now) {
+  if (!anim) return;
+  let k = Math.min(1, (now - anim.t0) / anim.dur);
+  k = k * k * (3 - 2 * k);
+  camera.position.lerpVectors(anim.p0, anim.p1, k);
+  controls.target.lerpVectors(anim.t0v, anim.t1v, k);
+  if (k >= 1) anim = null;
+}
+renderer.domElement.addEventListener('pointerdown', () => { anim = null; });
+renderer.domElement.addEventListener('wheel', () => { anim = null; }, { passive: true });
+
+function enfocar(region) {
+  const caja = new THREE.Box3();
+  region.mallas.forEach(m => { m.updateWorldMatrix(true, false); caja.union(new THREE.Box3().setFromObject(m)); });
+  if (caja.isEmpty()) return;
+  const c = caja.getCenter(new THREE.Vector3());
+  const tam = caja.getSize(new THREE.Vector3());
+  const r = Math.max(tam.x, tam.y, tam.z) / 2 * 1.1;   // la región llena ~70 % de la vista
+  const dist = Math.min(Math.max(distanciaPara(r, 0.7), 1.6), controls.maxDistance);   // mínimo 1,6 para regiones muy pequeñas
+  const dir = camera.position.clone().sub(controls.target).normalize();
+  irA(c.clone().add(dir.multiplyScalar(dist)), c);
+}
+
+/* =========================================================
+   7. SELECCIÓN POR CLIC
+   ========================================================= */
+const rayo = new THREE.Raycaster();
+let down = null;
+renderer.domElement.addEventListener('pointerdown', (e) => { down = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+renderer.domElement.addEventListener('pointerup', (e) => {
+  if (!down) return;
+  const mov = Math.hypot(e.clientX - down.x, e.clientY - down.y), dt = performance.now() - down.t;
+  down = null;
+  if (mov > 6 || dt > 600) return;           // fue un arrastre, no un clic
+  const r = renderer.domElement.getBoundingClientRect();
+  rayo.setFromCamera(new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera);
+  const golpe = rayo.intersectObjects(candidatosPick(), false)[0];
+  if (golpe) seleccionar(golpe.object.userData.principal.id);
+});
+
+/* =========================================================
+   8. INTERFAZ: lista, drogas, ficha
+   ========================================================= */
+let padreLista = null;   // grupo de la lista por el que se eligió la región
+const REGION_RAIZ = D.jerarquia.map(j => j.id);
+
+function construirArbol(filtro = '') {
+  const f = norm(filtro.trim());
+  const cont = $('arbol'); cont.innerHTML = '';
+  let n = 0;
+  // Una región puede estar bajo dos grupos (p. ej. accumbens): se marca solo la entrada por donde se llegó
+  const padresDe = (id) => D.jerarquia.filter(g => g.hijos.some(h => h.id === id)).map(g => g.id);
+  const padreMarcado = estado.region ? (padresDe(estado.region).includes(padreLista) ? padreLista : padresDe(estado.region)[0]) : null;
+  const boton = (id, hijo, padre) => {
+    const r = REG[id], b = document.createElement('button');
+    const activo = estado.region === id && (!hijo || padre === padreMarcado);
+    b.type = 'button'; b.className = 'item' + (hijo ? ' hijo' : '') + (activo ? ' activo' : '');
+    b.dataset.id = id;
+    const inte = estado.droga ? DROGA[estado.droga].regiones[id] : null;
+    b.innerHTML = '<span class="punto" style="background:' + r.color + '"></span><span>' + r.nombre + '</span>' +
+      (inte ? '<span class="badge" style="background:' + D.intensidades[inte.intensidad].color + '">' + D.intensidades[inte.intensidad].nombre + '</span>' : '');
+    b.addEventListener('click', () => { padreLista = padre || null; seleccionar(id); cerrarLista(); });
+    cont.appendChild(b); n++;
+  };
+  if (!f || norm(D.cerebroTotal.titulo).includes(f)) {
+    const t = document.createElement('button');
+    t.type = 'button'; t.className = 'item total' + (estado.region === null ? ' activo' : '');
+    t.innerHTML = '<span class="punto" style="background:var(--acento)"></span><span>' + D.cerebroTotal.titulo + '</span>';
+    t.addEventListener('click', () => { mostrarTodo(); cerrarLista(); });
+    cont.appendChild(t); n++;
+  }
+  D.jerarquia.forEach(g => {
+    const hijos = g.hijos.filter(h => !f || norm(REG[h.id].nombre).includes(f));
+    if (!f || norm(REG[g.id].nombre).includes(f) || hijos.length) {
+      boton(g.id, false, null);
+      (f && !norm(REG[g.id].nombre).includes(f) ? hijos : g.hijos).forEach(h => boton(h.id, true, g.id));
+    }
+  });
+  if (!n) cont.innerHTML = '<div class="vacio">No hay regiones con ese nombre.</div>';
+}
+
+function construirDrogas() {
+  const barra = $('drogas');
+  D.drogas.forEach(d => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'btn'; b.dataset.id = d.id; b.textContent = d.nombre;
+    b.addEventListener('click', () => elegirDroga(estado.droga === d.id ? null : d.id));
+    barra.insertBefore(b, $('btnAtras'));
+  });
+}
+
+function leyendaIntensidad() {
+  const l = $('leyenda');
+  l.classList.toggle('on', !!estado.droga);
+  l.innerHTML = Object.values(D.intensidades).map(i =>
+    '<span><i class="punto" style="background:' + i.color + '"></i>' + i.nombre + '</span>').join('');
+}
+
+function badge(inte) {
+  const i = D.intensidades[inte];
+  return '<span class="badge-int" style="background:' + i.color + '">Intensidad ' + i.nombre.toLowerCase() + '</span>';
+}
+
+function pintarFicha() {
+  const c = $('fichaCuerpo'), r = estado.region ? REG[estado.region] : null, d = estado.droga ? DROGA[estado.droga] : null;
+  let h = '';
+  if (r) {
+    h += '<h2>' + r.nombre + '</h2><div class="tipo">' + (r.tipo === 'grupo' ? 'Grupo de zonas' : 'Región') + '</div>';
+    if (r.nota) h += '<div class="nota">⚠ ' + r.nota + '</div>';
+    h += '<h3>Dónde está</h3><p>' + r.donde + '</p><h3>Qué hace</h3><p>' + r.funcion + '</p>' +
+         '<h3>Neurotransmisor principal</h3><p>' + r.neurotransmisor + '</p><h3>Rol en la adicción</h3><p>' + r.adiccion + '</p>';
+    if (d) {
+      const e = d.regiones[r.id];
+      h += '<div class="caja"><strong>Efecto de ' + d.nombre + '</strong><div style="margin:8px 0">' +
+        (e ? badge(e.intensidad) + '</div><p>' + e.frase + '</p>'
+           : '</div><p>Esta ficha no tiene un dato específico para esta zona. Elige una de sus partes.</p>') + '</div>';
+      if (!e && r.tipo === 'grupo') h += chipsHijos(r, d);
+    }
+    if (r.tipo === 'grupo' && !d) h += chipsHijos(r, null);
+  } else if (d) {
+    h += '<h2>' + d.nombre + '</h2><div class="tipo">' + d.tipo + '</div><p style="margin-top:10px">' + d.resumen + '</p>' +
+         '<h3>Zonas afectadas</h3><div class="chips">' +
+         Object.entries(d.regiones).sort((a, b) => ['alta', 'media', 'baja'].indexOf(a[1].intensidad) - ['alta', 'media', 'baja'].indexOf(b[1].intensidad))
+           .map(([id, e]) => '<button type="button" class="chip" data-r="' + id + '" style="border-left:6px solid ' + D.intensidades[e.intensidad].color + '">' + REG[id].nombre + '</button>').join('') +
+         '</div><p class="tipo" style="margin-top:12px">Toca una zona (en el cerebro o aquí) para ver el detalle.</p>';
+  } else {
+    const t = D.cerebroTotal;
+    h = '<h2>' + t.titulo + '</h2><div class="tipo">' + D.leyendaContenido + '</div>' +
+        t.intro.map(p => '<p style="margin-top:12px">' + p + '</p>').join('') +
+        '<p class="tipo" style="margin-top:14px">Gira con el mouse, acerca con la rueda y mueve con el botón derecho.</p>';
+  }
+  c.innerHTML = h;
+  c.querySelectorAll('[data-r]').forEach(b => b.addEventListener('click', () => seleccionar(b.dataset.r)));
+  $('fichaTitulo').textContent = r ? r.nombre : d ? d.nombre : D.cerebroTotal.titulo;
+}
+
+function chipsHijos(r, d) {
+  const ids = D.regiones.filter(x => x.tipo === 'region' && r.mallas.size && [...x.mallas].every(m => r.mallas.has(m)) && x.mallas.size).map(x => x.id);
+  if (!ids.length) return '';
+  return '<h3>Partes</h3><div class="chips">' + ids.map(id => '<button type="button" class="chip" data-r="' + id + '">' + REG[id].nombre + '</button>').join('') + '</div>';
+}
+
+function refrescarUI() {
+  actualizarAspecto();
+  ptr.sucio = true;
+  construirArbol($('buscar').value);
+  document.querySelectorAll('#drogas .btn[data-id]').forEach(b => b.classList.toggle('activo', b.dataset.id === estado.droga));
+  leyendaIntensidad();
+  pintarFicha();
+  $('btnAtras').disabled = historial.length === 0;
+}
+
+/* Historial para el botón "Atrás": guarda (región, droga) antes de cada cambio */
+const historial = [];
+function guardarHistorial() {
+  historial.push({ region: estado.region, droga: estado.droga });
+  if (historial.length > 50) historial.shift();
+}
+function atras() {
+  const u = historial.pop();
+  if (!u) return;
+  estado.region = u.region; estado.droga = u.droga;
+  refrescarUI();
+  if (u.region) { enfocar(REG[u.region]); desplegarFicha(); }
+  else irA(VISTA_INICIAL.pos, VISTA_INICIAL.target);
+}
+
+function seleccionar(id) {
+  if (id !== estado.region) guardarHistorial();
+  estado.region = id;
+  refrescarUI();
+  enfocar(REG[id]);
+  desplegarFicha();
+}
+function elegirDroga(id) { if (id !== estado.droga) guardarHistorial(); estado.droga = id; refrescarUI(); }
+function mostrarTodo() {
+  if (estado.region !== null || estado.droga !== null) guardarHistorial();
+  estado.region = null; estado.droga = null; refrescarUI();
+  irA(VISTA_INICIAL.pos, VISTA_INICIAL.target);
+}
+
+/* Lista y ficha plegables en celular */
+const abrirLista = () => $('lista').classList.add('abierta');
+function cerrarLista() { $('lista').classList.remove('abierta'); }
+$('btnRegiones').addEventListener('click', () => $('lista').classList.toggle('abierta'));
+$('fichaCab').addEventListener('click', () => {
+  const p = $('ficha').classList.toggle('plegada');
+  $('fichaFlecha').textContent = p ? '▴' : '▾';
+});
+function desplegarFicha() { $('ficha').classList.remove('plegada'); $('fichaFlecha').textContent = '▾'; }
+
+/* Controles */
+$('buscar').addEventListener('input', (e) => construirArbol(e.target.value));
+$('sOpacidad').addEventListener('input', (e) => { estado.opacidad = e.target.value / 100; });
+$('sSeparacion').addEventListener('input', (e) => { estado.separacion = e.target.value / 100; });
+$('btnAuto').addEventListener('click', (e) => {
+  controls.autoRotate = !controls.autoRotate;
+  e.currentTarget.classList.toggle('activo', controls.autoRotate);
+  e.currentTarget.setAttribute('aria-pressed', controls.autoRotate);
+});
+$('btnAtras').addEventListener('click', atras);
+$('btnReiniciar').addEventListener('click', () => irA(VISTA_INICIAL.pos, VISTA_INICIAL.target));
+$('chkBlanca').addEventListener('change', (e) => { estado.sustanciaBlanca = e.target.checked; actualizarAspecto(); });
+
+/* =========================================================
+   8b. EFECTO AL PASAR EL MOUSE (como BrainFacts)
+   ========================================================= */
+const etiquetaHover = $('etiquetaHover');
+const cv = renderer.domElement;
+let hoverRegion = null;
+const ptr = { cx: 0, cy: 0, dentro: false, sucio: false, arrastrando: false };
+let ultimoRayoHover = 0;
+
+/* Solo se pueden tocar las piezas visibles y seleccionables; las "fantasma" se atraviesan */
+function candidatosPick() { return mallas.filter(m => m.userData.pickable && m.material.visible); }
+
+function fijarHoverRegion(region) {
+  hoverRegion = region;
+  cv.style.cursor = region ? 'pointer' : '';
+  if (!region) { etiquetaHover.hidden = true; return; }
+  etiquetaHover.textContent = region.nombre;      // nombre en español de la ficha, nunca el de la malla
+  etiquetaHover.hidden = false;
+  posicionarEtiqueta();
+}
+function posicionarEtiqueta() {
+  const r = cont.getBoundingClientRect();
+  const x = Math.min(ptr.cx - r.left + 14, r.width - etiquetaHover.offsetWidth - 6);
+  const y = Math.min(ptr.cy - r.top + 18, r.height - etiquetaHover.offsetHeight - 6);
+  etiquetaHover.style.left = Math.max(4, x) + 'px';
+  etiquetaHover.style.top = Math.max(4, y) + 'px';
+}
+cv.addEventListener('pointermove', (e) => {
+  ptr.cx = e.clientX; ptr.cy = e.clientY; ptr.dentro = true; ptr.sucio = true;
+  if (hoverRegion) posicionarEtiqueta();
+});
+cv.addEventListener('pointerdown', () => { ptr.arrastrando = true; fijarHoverRegion(null); });
+['pointerup', 'pointercancel'].forEach(ev => cv.addEventListener(ev, (e) => {
+  ptr.arrastrando = false; ptr.sucio = true;
+  if (e.pointerType !== 'mouse') { ptr.dentro = false; fijarHoverRegion(null); }
+}));
+cv.addEventListener('pointerleave', () => { ptr.dentro = false; fijarHoverRegion(null); });
+
+/* El raycast corre como máximo una vez cada 70 ms y solo si el mouse se movió */
+function pasoHover(now) {
+  if (!ptr.dentro || ptr.arrastrando) return;
+  if (!ptr.sucio || now - ultimoRayoHover < 70) return;
+  ptr.sucio = false; ultimoRayoHover = now;
+  const r = cv.getBoundingClientRect();
+  rayo.setFromCamera(new THREE.Vector2(((ptr.cx - r.left) / r.width) * 2 - 1, -((ptr.cy - r.top) / r.height) * 2 + 1), camera);
+  const golpe = rayo.intersectObjects(candidatosPick(), false)[0];
+  const region = golpe ? golpe.object.userData.principal : null;
+  if (region !== hoverRegion) fijarHoverRegion(region);
+}
+
+/* =========================================================
+   8c. TEMA CLARO / OSCURO
+   ========================================================= */
+const TEMAS = {
+  dark:  { fondo: '#0f0f26', fantasma: '#6a7090', corteza: '#d9c3bb', opFantasma: 0.09, hemi: 1.1, dir: 1.6, boton: '☀ Modo día' },
+  light: { fondo: '#e9eaf2', fantasma: '#7d86a0', corteza: '#c4a095', opFantasma: 0.12, hemi: 1.5, dir: 1.1, boton: '🌙 Modo noche' }
+};
+function aplicarTema(t, guardar) {
+  const T = TEMAS[t] || TEMAS.dark;
+  document.documentElement.dataset.tema = TEMAS[t] ? t : 'dark';
+  scene.background.set(T.fondo);
+  luzHemi.intensity = T.hemi; luz.intensity = T.dir;
+  COLOR_FONDO_SIN_REGION.set(T.fantasma); COLOR_CORTEZA_BASE.set(T.corteza);
+  OPACIDAD_FANTASMA = T.opFantasma;
+  $('btnTema').textContent = T.boton;
+  $('btnTema').setAttribute('aria-pressed', t === 'light');
+  if (mallas.length) actualizarAspecto();
+  if (guardar) { try { localStorage.setItem('cerebro_tema', t); } catch (e) { /* sin almacenamiento: funciona igual */ } }
+}
+$('btnTema').addEventListener('click', () => {
+  aplicarTema(document.documentElement.dataset.tema === 'light' ? 'dark' : 'light', false);
+});
+
+/* =========================================================
+   9. ARRANQUE
+   ========================================================= */
+$('aviso').textContent = D.leyendaContenido;
+aplicarTema(document.documentElement.dataset.tema, false);
+const M = D.modelo;
+$('pie').innerHTML = 'Modelo 3D: ' + M.cita + ' <a href="' + M.url + '" target="_blank" rel="noopener">' + M.textoEnlace + '</a>. ' +
+  M.base + ' Atribución: ' + M.atribucion + ' Licencia <a href="' + M.urlLicencia + '" target="_blank" rel="noopener">' + M.licencia + '</a>.';
+construirDrogas();
+ajustarTamano();
+camera.position.copy(VISTA_INICIAL.pos);   // ya con el tamaño real de la vista
+
+await cargarModelo();
+asociarRegiones();
+refrescarUI();
+mallas.forEach(m => { m.userData.opActual = m.userData.opObjetivo; m.userData.colActual.copy(m.userData.colObjetivo); });
+
+function bucle(now) {
+  requestAnimationFrame(bucle);
+  pasoCamara(now);
+  pasoHover(now);
+  animarAspecto();
+  controls.update();
+  renderer.render(scene, camera);
+}
+requestAnimationFrame(bucle);
+window.__cerebro = { estado, seleccionar, elegirDroga, REG, mallas, renderer, scene, camera, aplicarTema, fijarHoverRegion }; // ayuda para pruebas en consola
+</script>
+</body>
+</html>
