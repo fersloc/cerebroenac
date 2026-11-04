@@ -34,6 +34,7 @@
     ]
   },
   "modelo": {
+    "archivoComprimido": "cerebro_comprimido.glb",
     "archivo": "cerebro.glb",
     "cita": "HRA. (2024). Brain, Male (Version 1) [3D model]. NIH 3D.",
     "url": "https://3d.nih.gov/entries/3DPX-020960",
@@ -218,7 +219,7 @@
   .btn:hover { border-color: var(--acento); }
   .btn.activo { background: var(--acento); border-color: var(--acento); color: var(--acento-texto); }
   .btn:focus-visible, input:focus-visible, .item:focus-visible, .chip:focus-visible { outline: 3px solid #ff9a4d; outline-offset: 2px; }
-  .btn-regiones { display: none; }
+  .btn-regiones, .cerrar-lista { display: none; }
   .btn-atras { margin-left: auto; }
   .btn:disabled { opacity: .4; cursor: default; }
 
@@ -286,25 +287,64 @@
     border-top: 3px solid #ff6b00; }
   .pie a { color: #ffb27a; }
 
-  /* --- Pantallas angostas (no probado aún; la revisión de celular viene después) --- */
+  /* --- Botones flotantes del celular (en escritorio no se ven) --- */
+  .flot { display: none; }
+
+  /* --- Celular y pantallas angostas --- */
   @media (max-width: 900px) {
-    .app { grid-template-columns: 1fr; grid-template-rows: auto auto auto minmax(0, 1fr) auto auto;
+    .app { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto minmax(0, 1fr) auto auto;
       grid-template-areas: "cab" "aviso" "drogas" "centro" "ficha" "pie"; }
+    .cab { gap: 10px; padding: 6px 10px; }
+    .logo { padding: 3px 8px; border-radius: 10px; }
+    .logo img { height: 26px; }
+    .titulo strong { font-size: 19px; }
     .titulo span { display: none; }
-    .aviso { font-size: 12px; padding: 4px 8px; }
-    .btn-regiones { display: inline-block; }
+    #btnTema { padding: 4px 12px; min-height: 38px; }
+    #btnTema .txt { display: none; }
+    .aviso { font-size: 11px; padding: 3px 8px; line-height: 1.25; }
+    .drogas { padding: 6px 10px; gap: 6px; }
+    .btn { min-height: 40px; padding: 4px 14px; font-size: 15px; }
+    .btn-regiones, .btn-atras { display: none; }
+
+    /* botones redondos sobre el cerebro: regiones, ajustes y atrás */
+    .flot { display: grid; place-items: center; position: absolute; left: 8px; z-index: 6; width: 46px; height: 46px;
+      border-radius: 50%; border: 2px solid var(--acento); background: var(--velo); color: var(--enlace);
+      font-size: 20px; font-weight: 700; padding: 0; }
+    :root[data-tema="dark"] .flot { border-color: var(--borde); color: var(--texto); }
+    .flot:disabled { opacity: .35; }
+    #btnRegionesF { top: 8px; }
+    #btnAtrasF { top: 62px; }
+    #btnAjustes { top: 116px; }
+    #btnAjustes.activo { background: var(--acento); color: var(--acento-texto); border-color: var(--acento); }
+
+    /* cajón de regiones */
     .lista { position: fixed; z-index: 20; left: 0; top: 0; bottom: 0; width: min(88vw, 340px);
       transform: translateX(-102%); transition: transform .2s; box-shadow: 4px 0 20px var(--sombra); }
     .lista.abierta { transform: none; }
-    .ficha { border-left: 0; border-top: 1px solid var(--borde); max-height: 42vh; }
+    .cerrar-lista { display: inline-block; margin: 10px 12px 0; align-self: flex-start; }
+
+    /* controles: panel que se abre sobre el cerebro con el botón de ajustes */
+    .controles { display: none; position: absolute; left: 62px; right: 8px; bottom: 8px; z-index: 6;
+      border: 1px solid var(--borde); border-radius: 16px; box-shadow: 0 4px 16px var(--sombra);
+      padding: 10px 12px; gap: 8px 12px; }
+    .centro.ajustes .controles { display: flex; }
+    .controles input[type=range] { width: 100px; }
+    .ayuda { display: none; }
+    .leyenda { top: 8px; bottom: auto; right: 8px; left: auto; font-size: 12px; padding: 4px 10px; }
+
+    /* ficha: hoja inferior plegable */
+    .ficha { border-left: 0; border-top: 2px solid var(--acento); max-height: 46vh; }
     .ficha.plegada { max-height: none; }
     .ficha.plegada .ficha-cuerpo { display: none; }
     .ficha-cab { display: flex; justify-content: space-between; align-items: center; width: 100%;
       padding: 10px 16px; background: var(--panel2); border: 0; border-bottom: 1px solid var(--borde);
-      position: sticky; top: 0; }
-    .controles { gap: 8px 12px; padding: 8px 10px; }
-    .controles input[type=range] { width: 100px; }
-    .leyenda { top: auto; bottom: 8px; right: 8px; }
+      position: sticky; top: 0; font-size: 16px; }
+    .ficha-cuerpo { padding: 12px 14px 16px; }
+    .ficha h2 { font-size: 22px; }
+    .ficha p { line-height: 1.5; }
+    .caja { padding-left: 46px; }
+
+    .pie { font-size: 10px; padding: 4px 10px; line-height: 1.3; }
   }
 </style>
 
@@ -315,7 +355,7 @@
   <header class="cab">
     <span class="logo"><img src="Logotipo.svg" alt="Logotipo ENAC" height="40"></span>
     <div class="titulo"><strong>Cerebro 3D</strong><span>Efectos de las drogas en el cerebro</span></div>
-    <button class="btn" id="btnTema" type="button" aria-pressed="false">☀ Modo día</button>
+    <button class="btn" id="btnTema" type="button" aria-pressed="false"><span class="ico">☀</span><span class="txt"> Modo día</span></button>
   </header>
 
   <div class="aviso" id="aviso"></div>
@@ -327,12 +367,16 @@
   </div>
 
   <aside class="lista" id="lista" aria-label="Regiones del cerebro">
+    <button class="btn cerrar-lista" id="btnCerrarLista" type="button">✕ Cerrar</button>
     <input type="search" id="buscar" placeholder="Buscar región…" aria-label="Buscar región">
     <div class="arbol" id="arbol"></div>
   </aside>
 
-  <main class="centro">
+  <main class="centro" id="centro">
     <div class="lienzo" id="lienzo">
+      <button class="flot" id="btnRegionesF" type="button" aria-label="Abrir lista de regiones">☰</button>
+      <button class="flot" id="btnAtrasF" type="button" disabled aria-label="Volver atrás">←</button>
+      <button class="flot" id="btnAjustes" type="button" aria-label="Ajustes de vista" aria-pressed="false">⚙</button>
       <div class="estado" id="estado">Cargando modelo…</div>
       <div class="leyenda" id="leyenda"></div>
       <div class="etiqueta-hover" id="etiquetaHover" hidden></div>
@@ -361,6 +405,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
 /* =========================================================
    1. DATOS Y UTILIDADES
@@ -381,7 +426,7 @@ const estado = { region: null, droga: null, opacidad: 1, separacion: 0, sustanci
    ========================================================= */
 const cont = $('lienzo');
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, window.matchMedia('(max-width: 900px)').matches ? 1.5 : 2));
 cont.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -411,11 +456,18 @@ controls.minDistance = 1.1;
 controls.maxDistance = 9;
 controls.autoRotateSpeed = 1.2;
 
+/* Render bajo demanda: se dibuja solo si algo cambió (cámara, colores, opacidad, tema, tamaño). Ahorra batería y calor en el celular. */
+let renderPendiente = 3;
+function pedirRender() { renderPendiente = 3; }
+
+let autoEncuadre = true, tReencuadre = null;
 function ajustarTamano() {
   const w = cont.clientWidth, h = cont.clientHeight;
   if (!w || !h) return;
   renderer.setSize(w, h, false);
   camera.aspect = w / h; camera.updateProjectionMatrix();
+  pedirRender();
+  clearTimeout(tReencuadre); tReencuadre = setTimeout(reencuadrar, 150);   // al cambiar el tamaño (girar el celular, abrir la ficha)
 }
 new ResizeObserver(ajustarTamano).observe(cont);
 
@@ -443,7 +495,12 @@ function prepararMalla(m) {
   m.userData.hov = 0;
   m.userData.colActual = new THREE.Color(0x888888);
   m.geometry.computeBoundingBox();
-  m.userData.centro = m.geometry.boundingBox.getCenter(new THREE.Vector3());
+  // Caja de la pieza en el espacio de la escena (el .glb comprimido cuantiza la geometría y le pone escala y traslación al nodo)
+  m.updateWorldMatrix(true, false);
+  const relativa = new THREE.Matrix4().copy(raiz.matrixWorld).invert().multiply(m.matrixWorld);   // sin la escala/posición de la raíz
+  m.userData.caja = m.geometry.boundingBox.clone().applyMatrix4(relativa);
+  m.userData.centro = m.userData.caja.getCenter(new THREE.Vector3());
+  m.userData.posBase = m.position.clone();
   mallas.push(m);
 }
 
@@ -453,7 +510,7 @@ function crearATV() {
   const teg = mallas.filter(m => m.userData.nombreNorm.includes('midbrain_tegmentum'));
   if (!teg.length) return;
   const caja = new THREE.Box3();
-  teg.forEach(m => caja.union(m.geometry.boundingBox));
+  teg.forEach(m => caja.union(m.userData.caja));
   const t = caja.getSize(new THREE.Vector3());
   const cx = (caja.min.x + caja.max.x) / 2, cy = caja.min.y + t.y * 0.3, cz = caja.min.z + t.z * 0.68;
   [['L', -1], ['R', 1]].forEach(([lado, signo]) => {
@@ -488,27 +545,37 @@ function formasSimples() {
 }
 
 async function cargarModelo() {
-  try {
-    const gltf = await new GLTFLoader().loadAsync(D.modelo.archivo, (e) => {
-      if (e.total) $('estado').textContent = 'Cargando modelo… ' + Math.round(e.loaded / e.total * 100) + '%';
-    });
-    gltf.scene.traverse(o => { if (o.isMesh) prepararMalla(o); });
-    raiz.add(gltf.scene);
-    // Se centra y escala el conjunto completo
-    const caja = new THREE.Box3().setFromObject(gltf.scene);
-    const tam = caja.getSize(new THREE.Vector3());
-    const k = 2 / Math.max(tam.x, tam.y, tam.z);
-    centroModelo = caja.getCenter(new THREE.Vector3());
-    raiz.scale.setScalar(k);
-    raiz.position.copy(centroModelo).multiplyScalar(-k);
-    crearATV();
-    $('estado').textContent = '';
-  } catch (err) {
-    console.warn('No se pudo cargar ' + D.modelo.archivo + '. Se usan formas simples.', err);
+  const cargador = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
+  const archivos = [D.modelo.archivoComprimido, D.modelo.archivo].filter(Boolean);
+  let gltf = null, usado = null;
+  for (const archivo of archivos) {
+    try {
+      gltf = await cargador.loadAsync(archivo, (e) => {
+        if (e.total) $('estado').textContent = 'Cargando modelo… ' + Math.round(e.loaded / e.total * 100) + '%';
+      });
+      usado = archivo; break;
+    } catch (err) {
+      console.warn('No se pudo cargar ' + archivo + (archivo !== archivos[archivos.length - 1] ? ', se prueba el siguiente.' : '.'), err);
+    }
+  }
+  if (!gltf) {
     formasSimples();
     centroModelo.set(0, 0, 0);
     $('estado').textContent = 'Sin cerebro.glb: se muestran formas simples de prueba';
+    return;
   }
+  console.log('Modelo cargado desde ' + usado);
+  gltf.scene.traverse(o => { if (o.isMesh) prepararMalla(o); });
+  raiz.add(gltf.scene);
+  // Se centra y escala el conjunto completo
+  const caja = new THREE.Box3().setFromObject(gltf.scene);
+  const tam = caja.getSize(new THREE.Vector3());
+  const k = 2 / Math.max(tam.x, tam.y, tam.z);
+  centroModelo = caja.getCenter(new THREE.Vector3());
+  raiz.scale.setScalar(k);
+  raiz.position.copy(centroModelo).multiplyScalar(-k);
+  crearATV();
+  $('estado').textContent = '';
 }
 
 /* =========================================================
@@ -596,26 +663,37 @@ function actualizarAspecto() {
 
 /* Interpolación suave de color/opacidad y separación (vista explotada) */
 const FACTOR_SEPARACION = 0.6;
+let sepAplicada = -1;
 function animarAspecto() {
+  let cambio = false;
+  const sepCambio = sepAplicada !== estado.separacion;
   mallas.forEach(m => {
     const u = m.userData, mat = m.material;
     // Con algo seleccionado o una droga elegida, el deslizador solo atenúa el resto del cerebro
     const objetivo = u.dest ? u.opObjetivo : u.opObjetivo * estado.opacidad;
+    const h = (hoverRegion && u.pickable && hoverRegion.mallas.has(m)) ? 1 : 0;
+    const distCol = Math.abs(u.colActual.r - u.colObjetivo.r) + Math.abs(u.colActual.g - u.colObjetivo.g) + Math.abs(u.colActual.b - u.colObjetivo.b);
+    // pieza ya en su estado final: no se toca
+    if (u.opActual === objetivo && distCol === 0 && u.hov === h && u.brilloAplicado === u.brillo && !sepCambio) return;
+    cambio = true;
     u.opActual += (objetivo - u.opActual) * 0.2;
     if (Math.abs(objetivo - u.opActual) < 0.003) u.opActual = objetivo;
     mat.opacity = u.opActual;
     mat.visible = u.opActual > 0.01;
     mat.depthWrite = u.opActual > 0.97;
     u.colActual.lerp(u.colObjetivo, 0.2);
+    if (Math.abs(u.colActual.r - u.colObjetivo.r) + Math.abs(u.colActual.g - u.colObjetivo.g) + Math.abs(u.colActual.b - u.colObjetivo.b) < 0.003) u.colActual.copy(u.colObjetivo);
     mat.color.copy(u.colActual);
     // brillo al pasar el mouse: se suma al brillo propio, sin tocar el color de intensidad
-    const h = (hoverRegion && u.pickable && hoverRegion.mallas.has(m)) ? 1 : 0;
     u.hov += (h - u.hov) * 0.25;
     if (Math.abs(h - u.hov) < 0.01) u.hov = h;
     mat.emissive.copy(u.colActual).multiplyScalar(u.brillo + 0.35 * u.hov);
+    u.brilloAplicado = u.brillo;
     // separación: cada pieza se aleja del centro del modelo
-    m.position.copy(u.centro).sub(centroModelo).multiplyScalar(estado.separacion * FACTOR_SEPARACION);
+    if (sepCambio) m.position.copy(u.centro).sub(centroModelo).multiplyScalar(estado.separacion * FACTOR_SEPARACION).add(u.posBase);
   });
+  if (sepCambio) sepAplicada = estado.separacion;
+  return cambio;
 }
 
 /* =========================================================
@@ -634,10 +712,16 @@ function pasoCamara(now) {
   controls.target.lerpVectors(anim.t0v, anim.t1v, k);
   if (k >= 1) anim = null;
 }
-renderer.domElement.addEventListener('pointerdown', () => { anim = null; });
+renderer.domElement.addEventListener('pointerdown', () => { anim = null; autoEncuadre = false; });
 renderer.domElement.addEventListener('wheel', () => { anim = null; }, { passive: true });
 
+function verInicial() { autoEncuadre = true; irA(VISTA_INICIAL.pos, VISTA_INICIAL.target); }
+function reencuadrar() {
+  if (!autoEncuadre || !mallas.length) return;
+  if (estado.region) enfocar(REG[estado.region]); else irA(VISTA_INICIAL.pos, VISTA_INICIAL.target, 300);
+}
 function enfocar(region) {
+  autoEncuadre = true;
   const caja = new THREE.Box3();
   region.mallas.forEach(m => { m.updateWorldMatrix(true, false); caja.union(new THREE.Box3().setFromObject(m)); });
   if (caja.isEmpty()) return;
@@ -775,7 +859,7 @@ function refrescarUI() {
   document.querySelectorAll('#drogas .btn[data-id]').forEach(b => b.classList.toggle('activo', b.dataset.id === estado.droga));
   leyendaIntensidad();
   pintarFicha();
-  $('btnAtras').disabled = historial.length === 0;
+  $('btnAtras').disabled = $('btnAtrasF').disabled = historial.length === 0;
 }
 
 /* Historial para el botón "Atrás": guarda (región, droga) antes de cada cambio */
@@ -790,7 +874,7 @@ function atras() {
   estado.region = u.region; estado.droga = u.droga;
   refrescarUI();
   if (u.region) { enfocar(REG[u.region]); desplegarFicha(); }
-  else irA(VISTA_INICIAL.pos, VISTA_INICIAL.target);
+  else verInicial();
 }
 
 function seleccionar(id) {
@@ -804,7 +888,7 @@ function elegirDroga(id) { if (id !== estado.droga) guardarHistorial(); estado.d
 function mostrarTodo() {
   if (estado.region !== null || estado.droga !== null) guardarHistorial();
   estado.region = null; estado.droga = null; refrescarUI();
-  irA(VISTA_INICIAL.pos, VISTA_INICIAL.target);
+  verInicial();
 }
 
 /* Lista y ficha plegables en celular */
@@ -827,7 +911,14 @@ $('btnAuto').addEventListener('click', (e) => {
   e.currentTarget.setAttribute('aria-pressed', controls.autoRotate);
 });
 $('btnAtras').addEventListener('click', atras);
-$('btnReiniciar').addEventListener('click', () => irA(VISTA_INICIAL.pos, VISTA_INICIAL.target));
+$('btnAtrasF').addEventListener('click', atras);
+$('btnRegionesF').addEventListener('click', abrirLista);
+$('btnCerrarLista').addEventListener('click', cerrarLista);
+$('btnAjustes').addEventListener('click', (e) => {
+  const on = $('centro').classList.toggle('ajustes');
+  e.currentTarget.classList.toggle('activo', on); e.currentTarget.setAttribute('aria-pressed', on);
+});
+$('btnReiniciar').addEventListener('click', verInicial);
 $('chkBlanca').addEventListener('change', (e) => { estado.sustanciaBlanca = e.target.checked; actualizarAspecto(); });
 
 /* =========================================================
@@ -884,8 +975,8 @@ function pasoHover(now) {
    8c. TEMA CLARO / OSCURO
    ========================================================= */
 const TEMAS = {
-  dark:  { fondo: '#0f0f26', fantasma: '#6a7090', corteza: '#d9c3bb', opFantasma: 0.09, hemi: 1.1, dir: 1.6, boton: '☀ Modo día' },
-  light: { fondo: '#e9eaf2', fantasma: '#7d86a0', corteza: '#c4a095', opFantasma: 0.12, hemi: 1.5, dir: 1.1, boton: '🌙 Modo noche' }
+  dark:  { fondo: '#0f0f26', fantasma: '#6a7090', corteza: '#d9c3bb', opFantasma: 0.09, hemi: 1.1, dir: 1.6, ico: '☀', txt: ' Modo día' },
+  light: { fondo: '#e9eaf2', fantasma: '#7d86a0', corteza: '#c4a095', opFantasma: 0.12, hemi: 1.5, dir: 1.1, ico: '🌙', txt: ' Modo noche' }
 };
 function aplicarTema(t, guardar) {
   const T = TEMAS[t] || TEMAS.dark;
@@ -894,7 +985,8 @@ function aplicarTema(t, guardar) {
   luzHemi.intensity = T.hemi; luz.intensity = T.dir;
   COLOR_FONDO_SIN_REGION.set(T.fantasma); COLOR_CORTEZA_BASE.set(T.corteza);
   OPACIDAD_FANTASMA = T.opFantasma;
-  $('btnTema').textContent = T.boton;
+  pedirRender();
+  $('btnTema').innerHTML = '<span class="ico">' + T.ico + '</span><span class="txt">' + T.txt + '</span>';
   $('btnTema').setAttribute('aria-pressed', t === 'light');
   if (mallas.length) actualizarAspecto();
   if (guardar) { try { localStorage.setItem('cerebro_tema', t); } catch (e) { /* sin almacenamiento: funciona igual */ } }
@@ -907,6 +999,7 @@ $('btnTema').addEventListener('click', () => {
    9. ARRANQUE
    ========================================================= */
 $('aviso').textContent = D.leyendaContenido;
+if (window.matchMedia('(max-width: 900px)').matches) { $('ficha').classList.add('plegada'); $('fichaFlecha').textContent = '▴'; }
 aplicarTema(document.documentElement.dataset.tema, false);
 const M = D.modelo;
 $('pie').innerHTML = 'Modelo 3D: ' + M.cita + ' <a href="' + M.url + '" target="_blank" rel="noopener">' + M.textoEnlace + '</a>. ' +
@@ -922,11 +1015,15 @@ mallas.forEach(m => { m.userData.opActual = m.userData.opObjetivo; m.userData.co
 
 function bucle(now) {
   requestAnimationFrame(bucle);
+  const habiaAnim = !!anim;
   pasoCamara(now);
   pasoHover(now);
-  animarAspecto();
-  controls.update();
-  renderer.render(scene, camera);
+  const cambio = animarAspecto();
+  const moviendo = controls.update();      // true mientras la cámara se mueve (arrastre, inercia, rotación automática)
+  if (habiaAnim || cambio || moviendo || renderPendiente > 0) {
+    renderer.render(scene, camera);
+    if (renderPendiente > 0) renderPendiente--;
+  }
 }
 requestAnimationFrame(bucle);
 window.__cerebro = { estado, seleccionar, elegirDroga, REG, mallas, renderer, scene, camera, aplicarTema, fijarHoverRegion }; // ayuda para pruebas en consola
