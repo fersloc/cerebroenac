@@ -315,6 +315,10 @@
     #btnRegionesF { top: 8px; }
     #btnAtrasF { top: 62px; }
     #btnAjustes { top: 116px; }
+    .flot-der { left: auto; right: 8px; font-size: 26px; }
+    #btnZoomMas { top: 46px; }
+    #btnZoomMenos { top: 100px; }
+    #btnInicio { top: 154px; font-size: 22px; }
     #btnAjustes.activo { background: var(--acento); color: var(--acento-texto); border-color: var(--acento); }
 
     /* cajón de regiones */
@@ -377,6 +381,9 @@
       <button class="flot" id="btnRegionesF" type="button" aria-label="Abrir lista de regiones">☰</button>
       <button class="flot" id="btnAtrasF" type="button" disabled aria-label="Volver atrás">←</button>
       <button class="flot" id="btnAjustes" type="button" aria-label="Ajustes de vista" aria-pressed="false">⚙</button>
+      <button class="flot flot-der" id="btnZoomMas" type="button" aria-label="Acercar" title="Acercar">+</button>
+      <button class="flot flot-der" id="btnZoomMenos" type="button" aria-label="Alejar" title="Alejar">−</button>
+      <button class="flot flot-der" id="btnInicio" type="button" aria-label="Volver a la vista inicial" title="Vista inicial">↺</button>
       <div class="estado" id="estado">Cargando modelo…</div>
       <div class="leyenda" id="leyenda"></div>
       <div class="etiqueta-hover" id="etiquetaHover" hidden></div>
@@ -919,6 +926,16 @@ $('btnAjustes').addEventListener('click', (e) => {
   e.currentTarget.classList.toggle('activo', on); e.currentTarget.setAttribute('aria-pressed', on);
 });
 $('btnReiniciar').addEventListener('click', verInicial);
+$('btnInicio').addEventListener('click', verInicial);
+/* Zoom con botones (+ y −): acerca o aleja la cámara hacia el punto que mira, respetando los límites */
+function zoomBoton(factor) {
+  autoEncuadre = false;
+  const dir = (anim ? anim.p1 : camera.position).clone().sub(controls.target);   // si ya hay un zoom en curso, se suma a ese destino
+  const d = Math.min(Math.max(dir.length() * factor, controls.minDistance), controls.maxDistance);
+  irA(controls.target.clone().add(dir.setLength(d)), controls.target, 250);
+}
+$('btnZoomMas').addEventListener('click', () => zoomBoton(0.72));
+$('btnZoomMenos').addEventListener('click', () => zoomBoton(1 / 0.72));
 $('chkBlanca').addEventListener('change', (e) => { estado.sustanciaBlanca = e.target.checked; actualizarAspecto(); });
 
 /* =========================================================
