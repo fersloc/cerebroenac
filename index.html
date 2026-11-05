@@ -30,6 +30,7 @@
     "intro": [
       "El cerebro es el órgano que controla lo que pensamos, sentimos y hacemos. Está formado por muchas zonas, y cada una cumple una función distinta.",
       "Las drogas actúan sobre estas zonas y cambian la forma en que el cerebro funciona: pueden afectar las emociones, la memoria, el control de los impulsos y la sensación de recompensa.",
+      "Una idea para recordar: el acelerador (el circuito de recompensa) se pone muy fuerte y el freno (la corteza prefrontal) se debilita.",
       "Toca una zona del cerebro, o elígela en la lista, para saber qué hace. También puedes elegir una droga arriba para ver qué zonas se ven más afectadas."
     ]
   },
@@ -45,6 +46,7 @@
     "urlLicencia": "https://creativecommons.org/licenses/by/4.0/",
     "ocultarPorDefecto": ["white_matter_of_forebrain"]
   },
+  "avisoIntensidad": "La intensidad compara unas sustancias con otras. Que sea «baja» no significa que sea segura.",
   "intensidades": {
     "alta":  { "nombre": "Alta",  "color": "#e5383b" },
     "media": { "nombre": "Media", "color": "#f59e0b" },
@@ -52,77 +54,218 @@
   },
   "regiones": [
     {
-      "id": "corteza_cerebral", "nombre": "Corteza cerebral", "tipo": "grupo", "color": "#d9c3bb",
-      "contiene": ["gyrus", "gyri", "lobule", "precuneus", "cuneus", "_pole_", "operculum", "planum", "limen_insula"],
-      "donde": "Es la capa externa y arrugada del cerebro. Cubre casi todo lo demás.",
-      "funcion": "Se encarga del pensamiento, la percepción, el movimiento y el lenguaje.",
-      "neurotransmisor": "Varios; el principal es el glutamato (por confirmar con el docente).",
-      "adiccion": "El consumo prolongado puede alterar cómo se piensa, se decide y se controla la conducta."
+      "id": "corteza_cerebral",
+      "nombre": "Corteza cerebral",
+      "tipo": "grupo",
+      "color": "#d9c3bb",
+      "contiene": [
+        "gyrus",
+        "gyri",
+        "lobule",
+        "precuneus",
+        "cuneus",
+        "_pole_",
+        "operculum",
+        "planum",
+        "limen_insula"
+      ],
+      "donde": "Capa externa de todo el cerebro.",
+      "funcion": "Pensar, sentir, decidir, moverse.",
+      "neurotransmisor": "Varios.",
+      "adiccion": "Se altera la forma de pensar y decidir."
     },
     {
-      "id": "corteza_prefrontal", "nombre": "Corteza prefrontal", "tipo": "region", "color": "#3b9dff",
-      "contiene": ["superior_frontal_gyrus", "middle_frontal_gyrus", "inferior_frontal_gyrus", "orbital_gyrus", "gyrus_rectus", "paracingulate", "rostral_gyrus"],
-      "donde": "Parte delantera del cerebro, justo detrás de la frente.",
-      "funcion": "Ayuda a planificar, tomar decisiones y frenar los impulsos.",
-      "neurotransmisor": "Dopamina (la regula) y glutamato (por confirmar).",
-      "adiccion": "Si su control se debilita, cuesta frenar el impulso de consumir aunque la persona conozca las consecuencias."
+      "id": "corteza_prefrontal",
+      "nombre": "Corteza prefrontal",
+      "tipo": "region",
+      "color": "#3b9dff",
+      "contiene": [
+        "superior_frontal_gyrus",
+        "middle_frontal_gyrus",
+        "inferior_frontal_gyrus",
+        "orbital_gyrus",
+        "gyrus_rectus",
+        "paracingulate",
+        "rostral_gyrus"
+      ],
+      "donde": "Parte delantera del cerebro, tras la frente. Es una parte de la corteza cerebral.",
+      "funcion": "El «freno»: planificar y medir las consecuencias.",
+      "neurotransmisor": "Dopamina, glutamato.",
+      "adiccion": "Pierde fuerza para frenar el consumo."
     },
     {
-      "id": "sistema_limbico", "nombre": "Sistema límbico", "tipo": "grupo", "color": "#6ee7b7",
-      "contiene": ["cingulate_gyrus", "parahippocampal", "fornix", "septal_nuclei", "mammillary_region", "anterior_nuclear_complex"],
-      "incluye": ["amigdala", "hipocampo", "nucleo_accumbens"],
+      "id": "sistema_limbico",
+      "nombre": "Sistema límbico",
+      "tipo": "grupo",
+      "color": "#6ee7b7",
+      "contiene": [
+        "cingulate_gyrus",
+        "parahippocampal",
+        "fornix",
+        "septal_nuclei",
+        "mammillary_region",
+        "anterior_nuclear_complex"
+      ],
+      "incluye": [
+        "amigdala",
+        "hipocampo"
+      ],
       "nota": "Agrupación propuesta, pendiente de validar con el docente.",
-      "donde": "Conjunto de zonas profundas, en el centro del cerebro, bajo la corteza.",
-      "funcion": "Participa en las emociones, la memoria y la motivación.",
-      "neurotransmisor": "Varios (por confirmar con el docente).",
-      "adiccion": "Une emociones y recuerdos con el consumo: por eso ciertos lugares o estados de ánimo pueden despertar el deseo de consumir."
-    },
-    {
-      "id": "amigdala", "nombre": "Amígdala", "tipo": "region", "color": "#a78bfa",
-      "exacto": ["amygdaloid_complex", "anterior_amygdaloid_area", "central_nuclear_group", "lateral_nucleus", "basolateral_nucleus_basal_nucleus", "basomedial_nucleus_accessory_basal_nucleus", "anterior_cortical_nucleus", "posterior_cortical_nucleus", "medial_nucleus", "amygdalohippocampal_area"],
-      "donde": "Dos estructuras con forma de almendra, una en cada lado, dentro del lóbulo temporal.",
-      "funcion": "Procesa emociones como el miedo y la ansiedad, y da carga emocional a los recuerdos.",
-      "neurotransmisor": "Varios (por confirmar con el docente).",
-      "adiccion": "Participa en el malestar, la ansiedad y el estrés de la abstinencia, y en el deseo intenso de consumir (craving) ante ciertas señales."
-    },
-    {
-      "id": "hipocampo", "nombre": "Hipocampo", "tipo": "region", "color": "#34d399",
-      "contiene": ["hippocampus"],
-      "donde": "Dentro del lóbulo temporal, curvado, junto a la amígdala.",
-      "funcion": "Forma nuevos recuerdos y ayuda a recordar lugares y situaciones.",
-      "neurotransmisor": "Glutamato (por confirmar con el docente).",
-      "adiccion": "Guarda el recuerdo de los lugares y momentos asociados al consumo, que luego pueden gatillar el craving."
-    },
-    {
-      "id": "circuito_recompensa", "nombre": "Circuito de recompensa", "tipo": "grupo", "color": "#f472b6",
-      "incluye": ["nucleo_accumbens", "area_tegmental_ventral"],
-      "donde": "Camino que va desde el mesencéfalo (área tegmental ventral) hasta el núcleo accumbens y la corteza prefrontal.",
-      "funcion": "Hace que sintamos placer y motivación con cosas importantes, como comer o socializar.",
+      "donde": "Zona profunda, bajo la corteza.",
+      "funcion": "Emociones y motivación.",
       "neurotransmisor": "Dopamina.",
-      "adiccion": "Las drogas activan este circuito de forma intensa y repetida; el cerebro aprende a buscar la sustancia."
+      "adiccion": "Une el consumo con emociones intensas."
     },
     {
-      "id": "nucleo_accumbens", "nombre": "Núcleo accumbens", "tipo": "region", "color": "#f472b6",
-      "contiene": ["nucleus_accumbens"],
-      "donde": "Zona pequeña y profunda, en la base de la parte delantera del cerebro.",
-      "funcion": "Es un centro clave del placer y la motivación.",
+      "id": "amigdala",
+      "nombre": "Amígdala",
+      "tipo": "region",
+      "color": "#a78bfa",
+      "exacto": [
+        "amygdaloid_complex",
+        "anterior_amygdaloid_area",
+        "central_nuclear_group",
+        "lateral_nucleus",
+        "basolateral_nucleus_basal_nucleus",
+        "basomedial_nucleus_accessory_basal_nucleus",
+        "anterior_cortical_nucleus",
+        "posterior_cortical_nucleus",
+        "medial_nucleus",
+        "amygdalohippocampal_area"
+      ],
+      "donde": "Dentro del sistema límbico (una a cada lado, en el lóbulo temporal).",
+      "funcion": "Miedo, estrés y alerta.",
+      "neurotransmisor": "Varios.",
+      "adiccion": "En la abstinencia aparecen angustia e irritabilidad."
+    },
+    {
+      "id": "hipocampo",
+      "nombre": "Hipocampo",
+      "tipo": "region",
+      "color": "#34d399",
+      "contiene": [
+        "hippocampus"
+      ],
+      "donde": "Dentro del sistema límbico (en el lóbulo temporal, junto a la amígdala).",
+      "funcion": "Memoria.",
+      "neurotransmisor": "Glutamato.",
+      "adiccion": "Guarda el recuerdo de «lugares y momentos de consumo», que gatillan las ganas."
+    },
+    {
+      "id": "circuito_recompensa",
+      "nombre": "Circuito de recompensa",
+      "tipo": "grupo",
+      "color": "#f472b6",
+      "incluye": [
+        "nucleo_accumbens",
+        "area_tegmental_ventral"
+      ],
+      "donde": "Red que conecta varias zonas, desde el área tegmental ventral hasta el núcleo accumbens y la corteza prefrontal.",
+      "funcion": "Hace que algo se sienta bien y quieras repetirlo.",
       "neurotransmisor": "Dopamina.",
-      "adiccion": "Cuando la dopamina sube aquí se siente recompensa; las drogas la elevan más que las recompensas naturales."
+      "adiccion": "Las sustancias lo activan más que las recompensas naturales."
     },
     {
-      "id": "area_tegmental_ventral", "nombre": "Área tegmental ventral (ATV)", "tipo": "region", "color": "#22d3ee",
-      "contiene": ["vta_referencial"],
+      "id": "nucleo_accumbens",
+      "nombre": "Núcleo accumbens",
+      "tipo": "region",
+      "color": "#f472b6",
+      "contiene": [
+        "nucleus_accumbens"
+      ],
+      "donde": "Parte del circuito de recompensa, zona media-baja.",
+      "funcion": "Sensación de placer y de «quiero más».",
+      "neurotransmisor": "Dopamina.",
+      "adiccion": "Se «acostumbra» y pide más."
+    },
+    {
+      "id": "area_tegmental_ventral",
+      "nombre": "Área tegmental ventral (ATV)",
+      "tipo": "region",
+      "color": "#22d3ee",
+      "contiene": [
+        "vta_referencial"
+      ],
       "nota": "Ubicación aproximada. El modelo 3D no trae el ATV: se muestra una forma simple, dentro del mesencéfalo, solo como referencia.",
-      "donde": "En el mesencéfalo, en la parte baja y central del cerebro.",
-      "funcion": "Fabrica dopamina y la envía al núcleo accumbens y a la corteza prefrontal.",
+      "donde": "Parte baja del cerebro.",
+      "funcion": "Fabrica y envía dopamina.",
       "neurotransmisor": "Dopamina.",
-      "adiccion": "Es el punto de partida de la señal de recompensa que las drogas activan."
+      "adiccion": "Es el punto de partida de la señal de recompensa."
+    },
+    {
+      "id": "cerebelo",
+      "nombre": "Cerebelo",
+      "tipo": "region",
+      "color": "#84cc16",
+      "contiene": [
+        "cerebell"
+      ],
+      "donde": "Parte baja y trasera del cerebro.",
+      "funcion": "Coordinación y equilibrio.",
+      "neurotransmisor": "Por confirmar con el docente.",
+      "adiccion": "Se nota con el alcohol: cuesta caminar derecho y mantener el equilibrio."
+    },
+    {
+      "id": "tronco_encefalico",
+      "nombre": "Tronco encefálico",
+      "tipo": "region",
+      "color": "#d946ef",
+      "contiene": [
+        "midbrain_tegmentum",
+        "substantia_nigra",
+        "red_nucleus",
+        "colliculus",
+        "cerebral_peduncle",
+        "of_pons",
+        "pontine",
+        "medulla",
+        "inferior_olive"
+      ],
+      "donde": "Base del cerebro: une el cerebro con la médula espinal.",
+      "funcion": "Controla la respiración y el latido del corazón.",
+      "neurotransmisor": "Por confirmar con el docente.",
+      "adiccion": "Es clave para entender el riesgo de los opioides y otros depresores: pueden frenar la respiración."
     }
   ],
   "jerarquia": [
-    { "id": "corteza_cerebral", "hijos": [ { "id": "corteza_prefrontal" } ] },
-    { "id": "sistema_limbico", "hijos": [ { "id": "amigdala" }, { "id": "hipocampo" }, { "id": "nucleo_accumbens" } ] },
-    { "id": "circuito_recompensa", "hijos": [ { "id": "nucleo_accumbens" }, { "id": "area_tegmental_ventral" } ] }
+    {
+      "id": "corteza_cerebral",
+      "hijos": [
+        {
+          "id": "corteza_prefrontal"
+        }
+      ]
+    },
+    {
+      "id": "sistema_limbico",
+      "hijos": [
+        {
+          "id": "amigdala"
+        },
+        {
+          "id": "hipocampo"
+        }
+      ]
+    },
+    {
+      "id": "circuito_recompensa",
+      "hijos": [
+        {
+          "id": "nucleo_accumbens"
+        },
+        {
+          "id": "area_tegmental_ventral"
+        }
+      ]
+    },
+    {
+      "id": "cerebelo",
+      "hijos": []
+    },
+    {
+      "id": "tronco_encefalico",
+      "hijos": []
+    }
   ],
   "drogas": [
     {
@@ -141,6 +284,7 @@
       "resumen": "Disminuye la actividad de muchas zonas del cerebro; afecta el juicio, la memoria y el control de la conducta.",
       "regiones": {
         "corteza_prefrontal": { "intensidad": "alta", "frase": "Disminuye el juicio y el control de impulsos." },
+        "cerebelo": { "intensidad": "alta", "frase": "Afecta la coordinación y el equilibrio." },
         "hipocampo": { "intensidad": "alta", "frase": "Dificulta formar recuerdos; puede haber lagunas de memoria." },
         "amigdala": { "intensidad": "media", "frase": "Cambia las emociones: puede reducir el miedo o aumentar la irritabilidad." },
         "nucleo_accumbens": { "intensidad": "media", "frase": "Participa en la sensación de recompensa asociada al consumo." },
@@ -832,7 +976,8 @@ function pintarFicha() {
       const e = d.regiones[r.id];
       h += '<div class="caja"><strong>Efecto de ' + d.nombre + '</strong><div style="margin:8px 0">' +
         (e ? badge(e.intensidad) + '</div><p>' + e.frase + '</p>'
-           : '</div><p>Esta ficha no tiene un dato específico para esta zona. Elige una de sus partes.</p>') + '</div>';
+           : '</div><p>' + (r.tipo === 'grupo' ? 'Este grupo no tiene un dato propio para esta sustancia. Elige una de sus partes.' : 'Todavía no hay un dato de esta sustancia para esta zona.') + '</p>') + '</div>';
+      h += '<div class="nota">' + D.avisoIntensidad + '</div>';
       if (!e && r.tipo === 'grupo') h += chipsHijos(r, d);
     }
     if (r.tipo === 'grupo' && !d) h += chipsHijos(r, null);
@@ -841,7 +986,8 @@ function pintarFicha() {
          '<h3>Zonas afectadas</h3><div class="chips">' +
          Object.entries(d.regiones).sort((a, b) => ['alta', 'media', 'baja'].indexOf(a[1].intensidad) - ['alta', 'media', 'baja'].indexOf(b[1].intensidad))
            .map(([id, e]) => '<button type="button" class="chip" data-r="' + id + '" style="border-left:6px solid ' + D.intensidades[e.intensidad].color + '">' + REG[id].nombre + '</button>').join('') +
-         '</div><p class="tipo" style="margin-top:12px">Toca una zona (en el cerebro o aquí) para ver el detalle.</p>';
+         '</div><div class="nota">' + D.avisoIntensidad + '</div>' +
+         '<p class="tipo" style="margin-top:12px">Toca una zona (en el cerebro o aquí) para ver el detalle.</p>';
   } else {
     const t = D.cerebroTotal;
     h = '<h2>' + t.titulo + '</h2><div class="tipo">' + D.leyendaContenido + '</div>' +
