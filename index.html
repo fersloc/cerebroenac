@@ -25,6 +25,13 @@
 <script type="application/json" id="datos">
 {
   "leyendaContenido": "Contenido de ejemplo, pendiente de validación docente",
+  "encabezado": {
+    "titulo": "Cerebro 3D",
+    "subtitulo": "Efectos de las drogas en el cerebro",
+    "creditos": "desarrollado por Ximena Rodríguez",
+    "version": "Versión beta"
+  },
+  "derechos": "© 2026 Ximena Rodríguez Martínez. Todos los derechos reservados.",
   "cerebroTotal": {
     "titulo": "Cerebro total",
     "intro": [
@@ -44,13 +51,24 @@
     "base": "Basado en Allen Human Reference Atlas – 3D, 2020.",
     "licencia": "CC BY 4.0",
     "urlLicencia": "https://creativecommons.org/licenses/by/4.0/",
-    "ocultarPorDefecto": ["white_matter_of_forebrain"]
+    "ocultarPorDefecto": [
+      "white_matter_of_forebrain"
+    ]
   },
   "avisoIntensidad": "La intensidad compara unas sustancias con otras. Que sea «baja» no significa que sea segura.",
   "intensidades": {
-    "alta":  { "nombre": "Alta",  "color": "#e5383b" },
-    "media": { "nombre": "Media", "color": "#f59e0b" },
-    "baja":  { "nombre": "Baja",  "color": "#e6c200" }
+    "alta": {
+      "nombre": "Alta",
+      "color": "#e5383b"
+    },
+    "media": {
+      "nombre": "Media",
+      "color": "#f59e0b"
+    },
+    "baja": {
+      "nombre": "Baja",
+      "color": "#e6c200"
+    }
   },
   "regiones": [
     {
@@ -88,10 +106,11 @@
         "paracingulate",
         "rostral_gyrus"
       ],
-      "donde": "Parte delantera del cerebro, tras la frente. Es una parte de la corteza cerebral.",
-      "funcion": "El «freno»: planificar y medir las consecuencias.",
+      "donde": "Parte delantera, tras la frente.",
+      "funcion": "El «freno»: planificar y medir consecuencias.",
       "neurotransmisor": "Dopamina, glutamato.",
-      "adiccion": "Pierde fuerza para frenar el consumo."
+      "adiccion": "Pierde fuerza para frenar el consumo.",
+      "parte": "corteza_cerebral"
     },
     {
       "id": "sistema_limbico",
@@ -133,10 +152,11 @@
         "medial_nucleus",
         "amygdalohippocampal_area"
       ],
-      "donde": "Dentro del sistema límbico (una a cada lado, en el lóbulo temporal).",
+      "donde": "Dentro del sistema límbico.",
       "funcion": "Miedo, estrés y alerta.",
       "neurotransmisor": "Varios.",
-      "adiccion": "En la abstinencia aparecen angustia e irritabilidad."
+      "adiccion": "En la abstinencia aparecen angustia e irritabilidad.",
+      "parte": "sistema_limbico"
     },
     {
       "id": "hipocampo",
@@ -146,10 +166,11 @@
       "contiene": [
         "hippocampus"
       ],
-      "donde": "Dentro del sistema límbico (en el lóbulo temporal, junto a la amígdala).",
+      "donde": "Dentro del sistema límbico.",
       "funcion": "Memoria.",
       "neurotransmisor": "Glutamato.",
-      "adiccion": "Guarda el recuerdo de «lugares y momentos de consumo», que gatillan las ganas."
+      "adiccion": "Guarda el recuerdo de «lugares y momentos de consumo», que gatillan las ganas.",
+      "parte": "sistema_limbico"
     },
     {
       "id": "circuito_recompensa",
@@ -160,7 +181,7 @@
         "nucleo_accumbens",
         "area_tegmental_ventral"
       ],
-      "donde": "Red que conecta varias zonas, desde el área tegmental ventral hasta el núcleo accumbens y la corteza prefrontal.",
+      "donde": "Red que conecta varias zonas.",
       "funcion": "Hace que algo se sienta bien y quieras repetirlo.",
       "neurotransmisor": "Dopamina.",
       "adiccion": "Las sustancias lo activan más que las recompensas naturales."
@@ -173,10 +194,11 @@
       "contiene": [
         "nucleus_accumbens"
       ],
-      "donde": "Parte del circuito de recompensa, zona media-baja.",
+      "donde": "Parte del circuito, zona media-baja.",
       "funcion": "Sensación de placer y de «quiero más».",
       "neurotransmisor": "Dopamina.",
-      "adiccion": "Se «acostumbra» y pide más."
+      "adiccion": "Se «acostumbra» y pide más.",
+      "parte": "circuito_recompensa"
     },
     {
       "id": "area_tegmental_ventral",
@@ -190,7 +212,8 @@
       "donde": "Parte baja del cerebro.",
       "funcion": "Fabrica y envía dopamina.",
       "neurotransmisor": "Dopamina.",
-      "adiccion": "Es el punto de partida de la señal de recompensa."
+      "adiccion": "Es el punto de partida de la señal de recompensa.",
+      "parte": "circuito_recompensa"
     },
     {
       "id": "cerebelo",
@@ -269,38 +292,569 @@
   ],
   "drogas": [
     {
-      "id": "cocaina", "nombre": "Cocaína", "tipo": "Estimulante",
-      "resumen": "Aumenta mucho la dopamina en el circuito de recompensa y deja menos freno para el control de impulsos.",
+      "id": "cocaina",
+      "nombre": "Cocaína",
+      "tipoId": "estimulante",
+      "tipo": "Estimulante",
+      "resumen": "Aumenta mucho la dopamina en el circuito de recompensa y deja menos freno para el control de impulsos. Se enseña junto con la pasta base como «estimulantes».",
+      "intensidadRecompensa": "alta",
       "regiones": {
-        "nucleo_accumbens": { "intensidad": "alta", "frase": "La dopamina sube con fuerza y produce una sensación intensa de recompensa." },
-        "area_tegmental_ventral": { "intensidad": "alta", "frase": "Es el origen de la dopamina que la droga hace actuar con más fuerza." },
-        "corteza_prefrontal": { "intensidad": "media", "frase": "Se debilita el control de impulsos y la toma de decisiones." },
-        "amigdala": { "intensidad": "media", "frase": "Se asocia con ansiedad y con el deseo de consumir ante ciertas señales." },
-        "hipocampo": { "intensidad": "baja", "frase": "Ayuda a recordar los lugares y situaciones ligados al consumo." }
+        "nucleo_accumbens": {
+          "intensidad": "alta",
+          "frase": "La dopamina sube con fuerza y produce una sensación intensa de recompensa."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "alta",
+          "frase": "Es el origen de la dopamina que la droga hace actuar con más fuerza."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Se debilita el control de impulsos y la toma de decisiones."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Se asocia con ansiedad y con el deseo de consumir ante ciertas señales."
+        },
+        "hipocampo": {
+          "intensidad": "baja",
+          "frase": "Ayuda a recordar los lugares y situaciones ligados al consumo."
+        }
       }
     },
     {
-      "id": "alcohol", "nombre": "Alcohol", "tipo": "Depresor",
+      "id": "pasta_base",
+      "nombre": "Pasta base",
+      "tipoId": "estimulante",
+      "tipo": "Estimulante",
+      "resumen": "Sustancia fumada de efecto breve e intenso. Activa con mucha fuerza el circuito de recompensa y se asocia a un deseo de consumir muy fuerte. Se enseña junto con la cocaína como «estimulantes».",
+      "intensidadRecompensa": "alta",
+      "regiones": {
+        "nucleo_accumbens": {
+          "intensidad": "alta",
+          "frase": "La dopamina sube de golpe y deja un deseo intenso de repetir el consumo."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "alta",
+          "frase": "Es el origen de la dopamina que la sustancia hace actuar con fuerza."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "alta",
+          "frase": "Se debilita el control de impulsos y la capacidad de decidir."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Se asocia con ansiedad, irritabilidad y malestar entre un consumo y otro."
+        },
+        "hipocampo": {
+          "intensidad": "baja",
+          "frase": "Ayuda a recordar los lugares y situaciones ligados al consumo."
+        }
+      }
+    },
+    {
+      "id": "metanfetaminas",
+      "nombre": "Metanfetaminas",
+      "tipoId": "estimulante",
+      "tipo": "Estimulante",
+      "resumen": "Estimulante muy potente que mantiene al cerebro acelerado y activa con fuerza el circuito de recompensa. El consumo repetido afecta el control de los impulsos.",
+      "intensidadRecompensa": "alta",
+      "regiones": {
+        "nucleo_accumbens": {
+          "intensidad": "alta",
+          "frase": "La dopamina sube mucho y se siente una recompensa muy intensa."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "alta",
+          "frase": "Libera grandes cantidades de dopamina."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "alta",
+          "frase": "Se debilitan el juicio y el control de los impulsos."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Puede producir ansiedad, desconfianza e irritabilidad."
+        },
+        "hipocampo": {
+          "intensidad": "media",
+          "frase": "Puede afectar la memoria y la atención."
+        }
+      }
+    },
+    {
+      "id": "extasis",
+      "nombre": "Éxtasis",
+      "tipoId": "estimulante",
+      "tipo": "Estimulante",
+      "resumen": "Estimulante que también cambia el ánimo: produce sensación de cercanía y bienestar, y muchas veces después vienen bajones de ánimo.",
+      "intensidadRecompensa": "media",
+      "regiones": {
+        "nucleo_accumbens": {
+          "intensidad": "media",
+          "frase": "Produce bienestar y ganas de repetir."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "media",
+          "frase": "Participa en la liberación de dopamina."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Afecta el juicio y la atención."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Cambia las emociones: más cercanía y menos miedo; después puede venir angustia."
+        },
+        "hipocampo": {
+          "intensidad": "media",
+          "frase": "Puede afectar la memoria."
+        }
+      }
+    },
+    {
+      "id": "nicotina",
+      "nombre": "Tabaco y nicotina (vapeo)",
+      "tipoId": "estimulante",
+      "tipo": "Estimulante",
+      "resumen": "La nicotina está en el tabaco y en los vapeadores. Activa el circuito de recompensa de forma moderada, pero el hábito se repite muchas veces al día y genera dependencia.",
+      "intensidadRecompensa": "media",
+      "regiones": {
+        "nucleo_accumbens": {
+          "intensidad": "media",
+          "frase": "Da una recompensa breve que se repite muchas veces al día."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "media",
+          "frase": "Participa en la liberación de dopamina que refuerza el hábito."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "baja",
+          "frase": "Se asocia con la dificultad para controlar las ganas de fumar o vapear."
+        },
+        "amigdala": {
+          "intensidad": "baja",
+          "frase": "Se usa para calmar la tensión; sin ella aparece irritabilidad."
+        }
+      }
+    },
+    {
+      "id": "alcohol",
+      "nombre": "Alcohol",
+      "tipoId": "depresora",
+      "tipo": "Depresora",
       "resumen": "Disminuye la actividad de muchas zonas del cerebro; afecta el juicio, la memoria y el control de la conducta.",
+      "intensidadRecompensa": "media",
       "regiones": {
-        "corteza_prefrontal": { "intensidad": "alta", "frase": "Disminuye el juicio y el control de impulsos." },
-        "cerebelo": { "intensidad": "alta", "frase": "Afecta la coordinación y el equilibrio." },
-        "hipocampo": { "intensidad": "alta", "frase": "Dificulta formar recuerdos; puede haber lagunas de memoria." },
-        "amigdala": { "intensidad": "media", "frase": "Cambia las emociones: puede reducir el miedo o aumentar la irritabilidad." },
-        "nucleo_accumbens": { "intensidad": "media", "frase": "Participa en la sensación de recompensa asociada al consumo." },
-        "area_tegmental_ventral": { "intensidad": "baja", "frase": "Interviene de forma indirecta en la liberación de dopamina." }
+        "corteza_prefrontal": {
+          "intensidad": "alta",
+          "frase": "Disminuye el juicio y el control de impulsos."
+        },
+        "cerebelo": {
+          "intensidad": "alta",
+          "frase": "Afecta la coordinación y el equilibrio."
+        },
+        "hipocampo": {
+          "intensidad": "alta",
+          "frase": "Dificulta formar recuerdos; puede haber lagunas de memoria."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Cambia las emociones: puede reducir el miedo o aumentar la irritabilidad."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "media",
+          "frase": "Participa en la sensación de recompensa asociada al consumo."
+        },
+        "tronco_encefalico": {
+          "intensidad": "media",
+          "frase": "En cantidades muy altas puede frenar la respiración."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "baja",
+          "frase": "Interviene de forma indirecta en la liberación de dopamina."
+        }
       }
     },
     {
-      "id": "pasta_base", "nombre": "Pasta base", "tipo": "Estimulante",
-      "resumen": "Sustancia fumada de efecto breve e intenso. Activa con mucha fuerza el circuito de recompensa y se asocia a un deseo de consumir muy fuerte.",
+      "id": "benzodiacepinas",
+      "nombre": "Benzodiacepinas",
+      "tipoId": "depresora",
+      "tipo": "Depresora",
+      "resumen": "Calmantes o «pastillas para dormir»: bajan la ansiedad y dan sueño. Son medicamentos y se subestima su riesgo: dan dependencia y son más peligrosas mezcladas con alcohol u opioides.",
+      "intensidadRecompensa": "baja",
       "regiones": {
-        "nucleo_accumbens": { "intensidad": "alta", "frase": "La dopamina sube de golpe y deja un deseo intenso de repetir el consumo." },
-        "area_tegmental_ventral": { "intensidad": "alta", "frase": "Es el origen de la dopamina que la sustancia hace actuar con fuerza." },
-        "corteza_prefrontal": { "intensidad": "alta", "frase": "Se debilita el control de impulsos y la capacidad de decidir." },
-        "amigdala": { "intensidad": "media", "frase": "Se asocia con ansiedad, irritabilidad y malestar entre un consumo y otro." },
-        "hipocampo": { "intensidad": "baja", "frase": "Ayuda a recordar los lugares y situaciones ligados al consumo." }
+        "amigdala": {
+          "intensidad": "alta",
+          "frase": "Bajan la ansiedad y el miedo."
+        },
+        "hipocampo": {
+          "intensidad": "alta",
+          "frase": "Pueden dificultar la formación de recuerdos nuevos."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Disminuyen el juicio y la atención."
+        },
+        "cerebelo": {
+          "intensidad": "media",
+          "frase": "Pueden producir torpeza y falta de equilibrio."
+        },
+        "tronco_encefalico": {
+          "intensidad": "media",
+          "frase": "Mezcladas con alcohol u opioides pueden frenar la respiración."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "baja",
+          "frase": "Activan poco el circuito de recompensa, pero igual dan dependencia."
+        }
       }
+    },
+    {
+      "id": "heroina",
+      "nombre": "Heroína",
+      "tipoId": "opioide",
+      "tipo": "Opioide",
+      "resumen": "Droga ilegal derivada de la morfina. Produce una sensación intensa de calma y bienestar, y genera dependencia con facilidad.",
+      "intensidadRecompensa": "alta",
+      "regiones": {
+        "tronco_encefalico": {
+          "intensidad": "alta",
+          "frase": "Pueden frenar la respiración y el latido: es su mayor riesgo."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "alta",
+          "frase": "Producen una sensación intensa de calma y bienestar que se quiere repetir."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "alta",
+          "frase": "Aumentan la dopamina del circuito de recompensa."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Calman la angustia; en la abstinencia aparecen angustia e irritabilidad."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Disminuyen el juicio y el control de los impulsos."
+        }
+      }
+    },
+    {
+      "id": "morfina",
+      "nombre": "Morfina",
+      "tipoId": "opioide",
+      "tipo": "Opioide",
+      "resumen": "Medicamento muy potente contra el dolor intenso. Usado sin control médico produce dependencia.",
+      "intensidadRecompensa": "alta",
+      "regiones": {
+        "tronco_encefalico": {
+          "intensidad": "alta",
+          "frase": "Pueden frenar la respiración y el latido: es su mayor riesgo."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "alta",
+          "frase": "Producen una sensación intensa de calma y bienestar que se quiere repetir."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "alta",
+          "frase": "Aumentan la dopamina del circuito de recompensa."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Calman la angustia; en la abstinencia aparecen angustia e irritabilidad."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Disminuyen el juicio y el control de los impulsos."
+        }
+      }
+    },
+    {
+      "id": "fentanilo",
+      "nombre": "Fentanilo",
+      "tipoId": "opioide",
+      "tipo": "Opioide",
+      "resumen": "Opioide muchísimo más potente que la morfina, usado en medicina contra el dolor. Una cantidad mínima de más puede detener la respiración.",
+      "intensidadRecompensa": "alta",
+      "regiones": {
+        "tronco_encefalico": {
+          "intensidad": "alta",
+          "frase": "Pueden frenar la respiración y el latido: es su mayor riesgo."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "alta",
+          "frase": "Producen una sensación intensa de calma y bienestar que se quiere repetir."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "alta",
+          "frase": "Aumentan la dopamina del circuito de recompensa."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Calman la angustia; en la abstinencia aparecen angustia e irritabilidad."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Disminuyen el juicio y el control de los impulsos."
+        }
+      }
+    },
+    {
+      "id": "tramadol",
+      "nombre": "Tramadol",
+      "tipoId": "opioide",
+      "tipo": "Opioide",
+      "resumen": "Medicamento contra el dolor que pertenece a la familia de los opioides. Se subestima su riesgo por ser un analgésico.",
+      "intensidadRecompensa": "media",
+      "regiones": {
+        "tronco_encefalico": {
+          "intensidad": "media",
+          "frase": "En cantidades altas o mezclados con alcohol pueden frenar la respiración."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "media",
+          "frase": "Producen calma y bienestar que se puede querer repetir."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "media",
+          "frase": "Aumentan la dopamina del circuito de recompensa."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Calman la angustia; en la abstinencia aparecen angustia e irritabilidad."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "baja",
+          "frase": "Disminuyen el juicio y el control de los impulsos."
+        }
+      }
+    },
+    {
+      "id": "codeina",
+      "nombre": "Codeína (tónicos para la tos)",
+      "tipoId": "opioide",
+      "tipo": "Opioide",
+      "resumen": "Opioide suave presente en algunos tónicos o jarabes para la tos. Parece inofensivo por ser un medicamento, pero puede dar dependencia.",
+      "intensidadRecompensa": "media",
+      "regiones": {
+        "tronco_encefalico": {
+          "intensidad": "media",
+          "frase": "En cantidades altas o mezclados con alcohol pueden frenar la respiración."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "media",
+          "frase": "Producen calma y bienestar que se puede querer repetir."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "media",
+          "frase": "Aumentan la dopamina del circuito de recompensa."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Calman la angustia; en la abstinencia aparecen angustia e irritabilidad."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "baja",
+          "frase": "Disminuyen el juicio y el control de los impulsos."
+        }
+      },
+      "origen": "profesora"
+    },
+    {
+      "id": "cannabis",
+      "nombre": "Cannabis",
+      "tipoId": "alteradora",
+      "tipo": "Alteradora de la percepción",
+      "resumen": "Afecta sobre todo la memoria, la atención y la percepción; también influye en las emociones y en la motivación.",
+      "intensidadRecompensa": "media",
+      "regiones": {
+        "hipocampo": {
+          "intensidad": "alta",
+          "frase": "Dificulta la memoria reciente y el aprendizaje."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Afecta la atención, la planificación y la toma de decisiones."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Puede producir ansiedad o desconfianza en algunas personas."
+        },
+        "cerebelo": {
+          "intensidad": "media",
+          "frase": "Afecta la coordinación y el tiempo de reacción."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "media",
+          "frase": "Participa en la sensación de recompensa."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "baja",
+          "frase": "Interviene de forma indirecta en la liberación de dopamina."
+        }
+      }
+    },
+    {
+      "id": "ketamina",
+      "nombre": "Ketamina",
+      "tipoId": "alteradora",
+      "tipo": "Alteradora de la percepción",
+      "resumen": "Es un anestésico que, usado como droga, produce sensación de desconexión del cuerpo y del entorno, y altera la percepción y la memoria.",
+      "intensidadRecompensa": "baja",
+      "regiones": {
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Altera el pensamiento y la capacidad de decidir."
+        },
+        "hipocampo": {
+          "intensidad": "media",
+          "frase": "Afecta la memoria."
+        },
+        "amigdala": {
+          "intensidad": "baja",
+          "frase": "Puede causar ansiedad o miedo intenso en algunas personas."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "baja",
+          "frase": "Activa poco el circuito de recompensa."
+        }
+      }
+    },
+    {
+      "id": "tusi",
+      "nombre": "Tusi",
+      "tipoId": "alteradora",
+      "tipo": "Alteradora de la percepción",
+      "resumen": "Mezcla de composición variable e incierta (a menudo con ketamina y otras sustancias). Como no se sabe qué contiene, sus efectos y riesgos son difíciles de predecir.",
+      "intensidadRecompensa": "media",
+      "regiones": {
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Altera el juicio y el control de los impulsos."
+        },
+        "hipocampo": {
+          "intensidad": "media",
+          "frase": "Afecta la memoria."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "media",
+          "frase": "Puede activar el circuito de recompensa, según lo que contenga."
+        },
+        "amigdala": {
+          "intensidad": "baja",
+          "frase": "Puede cambiar el ánimo y producir ansiedad."
+        }
+      }
+    },
+    {
+      "id": "hongos",
+      "nombre": "Hongos alucinógenos",
+      "tipoId": "alucinogeno",
+      "tipo": "Alucinógeno",
+      "resumen": "Hongos que contienen psilocibina. Producen alucinaciones y cambios en el ánimo y en la percepción del tiempo y del entorno.",
+      "intensidadRecompensa": "baja",
+      "regiones": {
+        "corteza_prefrontal": {
+          "intensidad": "alta",
+          "frase": "Cambia la forma de percibir y de pensar."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Puede producir miedo, angustia o euforia intensos."
+        },
+        "hipocampo": {
+          "intensidad": "baja",
+          "frase": "Puede alterar el recuerdo de lo vivido."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "baja",
+          "frase": "Activan poco el circuito de recompensa."
+        }
+      },
+      "origen": "profesora"
+    },
+    {
+      "id": "lsd",
+      "nombre": "LSD",
+      "tipoId": "alucinogeno",
+      "tipo": "Alucinógeno",
+      "resumen": "Sustancia sintética muy potente que produce alucinaciones y cambios intensos de percepción y de ánimo.",
+      "intensidadRecompensa": "baja",
+      "regiones": {
+        "corteza_prefrontal": {
+          "intensidad": "alta",
+          "frase": "Cambia la forma de percibir y de pensar."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Puede producir miedo, angustia o euforia intensos."
+        },
+        "hipocampo": {
+          "intensidad": "baja",
+          "frase": "Puede alterar el recuerdo de lo vivido."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "baja",
+          "frase": "Activan poco el circuito de recompensa."
+        }
+      }
+    },
+    {
+      "id": "floripondio",
+      "nombre": "Floripondio",
+      "tipoId": "alucinogeno",
+      "tipo": "Alucinógeno",
+      "resumen": "Planta cuyas flores contienen sustancias que producen alucinaciones, confusión y delirio. Es muy peligrosa porque es difícil calcular qué cantidad intoxica.",
+      "intensidadRecompensa": "baja",
+      "regiones": {
+        "corteza_prefrontal": {
+          "intensidad": "alta",
+          "frase": "Produce confusión y delirio."
+        },
+        "hipocampo": {
+          "intensidad": "alta",
+          "frase": "Afecta la memoria: después cuesta recordar lo vivido."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Puede producir miedo y angustia intensos."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "baja",
+          "frase": "Activa poco el circuito de recompensa."
+        }
+      },
+      "origen": "profesora"
+    }
+  ],
+  "tiposDroga": [
+    {
+      "id": "estimulante",
+      "nombre": "Estimulantes",
+      "descripcion": "Aceleran el cerebro: dan energía y activan mucho el circuito de recompensa."
+    },
+    {
+      "id": "depresora",
+      "nombre": "Depresoras",
+      "descripcion": "Enlentecen el cerebro: dan calma o sueño y bajan la actividad de muchas zonas."
+    },
+    {
+      "id": "opioide",
+      "nombre": "Opioides",
+      "origen": "profesora",
+      "descripcion": "Familia de sustancias que calman el dolor y producen calma y bienestar. Están en drogas como la heroína y también en medicamentos, por ejemplo algunos tónicos o jarabes para la tos con codeína."
+    },
+    {
+      "id": "alteradora",
+      "nombre": "Alteradoras de la percepción",
+      "corto": "Alteradoras",
+      "descripcion": "Cambian la forma de percibir la realidad, la memoria y las emociones."
+    },
+    {
+      "id": "alucinogeno",
+      "nombre": "Alucinógenos",
+      "origen": "profesora",
+      "descripcion": "Familia de sustancias que producen alucinaciones y cambian la percepción. Pueden venir de hongos o de plantas, como el floripondio, o ser sintéticas, como el LSD."
     }
   ]
 }
@@ -353,8 +907,18 @@
   /* --- Aviso y barra de drogas --- */
   .aviso { grid-area: aviso; background: var(--aviso-bg); color: var(--aviso-tx); padding: 6px 12px;
     font-size: 14px; text-align: center; font-weight: 700; border-bottom: 1px solid var(--aviso-bd); }
-  .drogas { grid-area: drogas; display: flex; gap: 8px; align-items: center; padding: 10px 16px;
+  .drogas { grid-area: drogas; display: flex; flex-direction: column; gap: 6px; padding: 8px 16px;
     background: var(--panel); border-bottom: 1px solid var(--borde); overflow-x: auto; }
+  .drogas .fila { display: flex; gap: 8px; align-items: center; overflow-x: auto; }
+  .btn.tipo { min-height: 34px; padding: 2px 14px; font-size: 14px; background: #3b3a9e; border-color: #3b3a9e; color: #fff; }
+  .btn.tipo:hover { background: #2f2e86; border-color: #2f2e86; }
+  .btn.tipo.sel { border-color: #ff6b00; box-shadow: inset 0 -4px 0 #ff6b00; }
+  :root[data-tema="dark"] .btn.tipo { color: #fff; border-color: #3b3a9e; }
+  #filaDrogas .btn.activo { background: #ff6b00; border-color: #ff6b00; color: #14143a; }
+  .rec { margin-top: 10px; line-height: 1.8; }
+  .t-corto { display: none; }
+  .drogas .fila { scrollbar-width: none; }
+  .drogas .fila::-webkit-scrollbar { display: none; }
   .drogas .etiqueta { color: var(--texto2); font-size: 14px; font-weight: 600; white-space: nowrap; }
   /* Botones "pastilla", como en la web de ENAC */
   .btn { background: transparent; border: 2px solid var(--acento); color: var(--enlace); border-radius: 999px;
@@ -430,6 +994,8 @@
   .pie { grid-area: pie; background: #14143a; color: #c9c9e3; padding: 8px 16px; font-size: 12px; line-height: 1.4;
     border-top: 3px solid #ff6b00; }
   .pie a { color: #ffb27a; }
+  .pie { text-align: center; }
+  .pie .derechos { font-weight: 700; color: #fff; font-size: 13px; margin-bottom: 2px; }
 
   /* --- Botones flotantes del celular (en escritorio no se ven) --- */
   .flot { display: none; }
@@ -442,11 +1008,17 @@
     .logo { padding: 3px 8px; border-radius: 10px; }
     .logo img { height: 26px; }
     .titulo strong { font-size: 19px; }
-    .titulo span { display: none; }
+    .titulo span { font-size: 10.5px; line-height: 1.2; }
+    .titulo .t-tema { display: none; }
+    .titulo .t-cred { display: inline-block; }
+    .titulo .t-cred::first-letter { text-transform: uppercase; }
     #btnTema { padding: 4px 12px; min-height: 38px; }
     #btnTema .txt { display: none; }
     .aviso { font-size: 11px; padding: 3px 8px; line-height: 1.25; }
-    .drogas { padding: 6px 10px; gap: 6px; }
+    .drogas { padding: 4px 10px; gap: 4px; }
+    .btn.tipo { min-height: 34px; font-size: 13px; padding: 2px 10px; }
+    .t-largo { display: none; }
+    .t-corto { display: inline; }
     .btn { min-height: 40px; padding: 4px 14px; font-size: 15px; }
     .btn-regiones, .btn-atras { display: none; }
 
@@ -493,6 +1065,7 @@
     .caja { padding-left: 46px; }
 
     .pie { font-size: 10px; padding: 4px 10px; line-height: 1.3; }
+    .pie .derechos { font-size: 11px; margin-bottom: 1px; }
   }
 </style>
 
@@ -502,16 +1075,21 @@
 <div class="app">
   <header class="cab">
     <span class="logo"><img src="Logotipo.svg" alt="Logotipo ENAC" height="40"></span>
-    <div class="titulo"><strong>Cerebro 3D</strong><span>Efectos de las drogas en el cerebro</span></div>
+    <div class="titulo"><strong id="tTitulo">Cerebro 3D</strong><span id="tSub"></span></div>
     <button class="btn" id="btnTema" type="button" aria-pressed="false"><span class="ico">☀</span><span class="txt"> Modo día</span></button>
   </header>
 
   <div class="aviso" id="aviso"></div>
 
   <div class="drogas" id="drogas" role="group" aria-label="Elegir droga">
-    <button class="btn btn-regiones" id="btnRegiones" type="button">☰ Regiones</button>
-    <span class="etiqueta">Droga:</span>
-    <button class="btn btn-atras" id="btnAtras" type="button" disabled aria-label="Volver a la vista anterior">← Atrás</button>
+    <div class="fila" id="filaTipos">
+      <button class="btn btn-regiones" id="btnRegiones" type="button">☰ Regiones</button>
+      <span class="etiqueta">Tipo:</span>
+    </div>
+    <div class="fila" id="filaDrogas">
+      <span class="etiqueta">Droga:</span>
+      <button class="btn btn-atras" id="btnAtras" type="button" disabled aria-label="Volver a la vista anterior">← Atrás</button>
+    </div>
   </div>
 
   <aside class="lista" id="lista" aria-label="Regiones del cerebro">
@@ -777,10 +1355,17 @@ function asociarRegiones() {
 let OPACIDAD_FANTASMA = 0.09;   // piezas "apagadas" cuando hay selección
 const OPACIDAD_FONDO = 0.1;       // mallas sin región
 
+/* Efecto de una sustancia en una zona. Para el circuito de recompensa se usa la intensidad propia de la sustancia (la que pide el documento). */
+function efectoDe(d, regionId) {
+  if (d.regiones[regionId]) return d.regiones[regionId];
+  if (regionId === 'circuito_recompensa' && d.intensidadRecompensa) return { intensidad: d.intensidadRecompensa, frase: 'Así se compara esta sustancia con otras en el circuito de recompensa.' };
+  return null;
+}
+
 function intensidadDeMalla(m, drogaId) {
   if (!drogaId) return null;
   for (const r of m.userData.regiones) {
-    const e = DROGA[drogaId].regiones[r.id];
+    const e = efectoDe(DROGA[drogaId], r.id);
     if (e) return e;
   }
   return null;
@@ -919,7 +1504,7 @@ function construirArbol(filtro = '') {
     const activo = estado.region === id && (!hijo || padre === padreMarcado);
     b.type = 'button'; b.className = 'item' + (hijo ? ' hijo' : '') + (activo ? ' activo' : '');
     b.dataset.id = id;
-    const inte = estado.droga ? DROGA[estado.droga].regiones[id] : null;
+    const inte = estado.droga ? efectoDe(DROGA[estado.droga], id) : null;
     b.innerHTML = '<span class="punto" style="background:' + r.color + '"></span><span>' + r.nombre + '</span>' +
       (inte ? '<span class="badge" style="background:' + D.intensidades[inte.intensidad].color + '">' + D.intensidades[inte.intensidad].nombre + '</span>' : '');
     b.addEventListener('click', () => { padreLista = padre || null; seleccionar(id); cerrarLista(); });
@@ -942,14 +1527,33 @@ function construirArbol(filtro = '') {
   if (!n) cont.innerHTML = '<div class="vacio">No hay regiones con ese nombre.</div>';
 }
 
+estado.tipoVisible = D.tiposDroga[0].id; estado.verTipo = false;
 function construirDrogas() {
-  const barra = $('drogas');
-  D.drogas.forEach(d => {
+  const fila = $('filaTipos');
+  D.tiposDroga.forEach(t => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'btn tipo'; b.dataset.tipo = t.id; b.setAttribute('aria-label', t.nombre);
+    b.innerHTML = '<span class="t-largo">' + t.nombre + '</span><span class="t-corto">' + (t.corto || t.nombre) + '</span>';
+    b.addEventListener('click', () => { estado.tipoVisible = t.id; estado.verTipo = true; refrescarUI(); });
+    fila.appendChild(b);
+  });
+  pintarFilaDrogas();
+}
+/* Muestra las sustancias del tipo elegido (primer nivel: tipo; segundo nivel: sustancia) */
+function pintarFilaDrogas() {
+  const fila = $('filaDrogas');
+  fila.querySelectorAll('.btn[data-id]').forEach(b => b.remove());
+  D.drogas.filter(d => d.tipoId === estado.tipoVisible).forEach(d => {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'btn'; b.dataset.id = d.id; b.textContent = d.nombre;
     b.addEventListener('click', () => elegirDroga(estado.droga === d.id ? null : d.id));
-    barra.insertBefore(b, $('btnAtras'));
+    fila.insertBefore(b, $('btnAtras'));
   });
+  document.querySelectorAll('#filaTipos .btn.tipo').forEach(b => b.classList.toggle('sel', b.dataset.tipo === estado.tipoVisible));
+  fila.querySelectorAll('.btn[data-id]').forEach(b => b.classList.toggle('activo', b.dataset.id === estado.droga));
+  // en celular las filas se deslizan: se deja a la vista el tipo y la sustancia elegidos
+  const aVer = [document.querySelector('#filaTipos .btn.tipo.sel'), fila.querySelector('.btn.activo')];
+  aVer.forEach(b => { if (b) b.scrollIntoView({ inline: 'center', block: 'nearest' }); });
 }
 
 function leyendaIntensidad() {
@@ -968,12 +1572,12 @@ function pintarFicha() {
   const c = $('fichaCuerpo'), r = estado.region ? REG[estado.region] : null, d = estado.droga ? DROGA[estado.droga] : null;
   let h = '';
   if (r) {
-    h += '<h2>' + r.nombre + '</h2><div class="tipo">' + (r.tipo === 'grupo' ? 'Grupo de zonas' : 'Región') + '</div>';
+    h += '<h2>' + r.nombre + '</h2><div class="tipo">' + (r.tipo === 'grupo' ? 'Grupo de zonas' : 'Región') + (r.parte ? ' · parte de ' + REG[r.parte].nombre : '') + '</div>';
     if (r.nota) h += '<div class="nota">⚠ ' + r.nota + '</div>';
     h += '<h3>Dónde está</h3><p>' + r.donde + '</p><h3>Qué hace</h3><p>' + r.funcion + '</p>' +
          '<h3>Neurotransmisor principal</h3><p>' + r.neurotransmisor + '</p><h3>Rol en la adicción</h3><p>' + r.adiccion + '</p>';
     if (d) {
-      const e = d.regiones[r.id];
+      const e = efectoDe(d, r.id);
       h += '<div class="caja"><strong>Efecto de ' + d.nombre + '</strong><div style="margin:8px 0">' +
         (e ? badge(e.intensidad) + '</div><p>' + e.frase + '</p>'
            : '</div><p>' + (r.tipo === 'grupo' ? 'Este grupo no tiene un dato propio para esta sustancia. Elige una de sus partes.' : 'Todavía no hay un dato de esta sustancia para esta zona.') + '</p>') + '</div>';
@@ -983,11 +1587,18 @@ function pintarFicha() {
     if (r.tipo === 'grupo' && !d) h += chipsHijos(r, null);
   } else if (d) {
     h += '<h2>' + d.nombre + '</h2><div class="tipo">' + d.tipo + '</div><p style="margin-top:10px">' + d.resumen + '</p>' +
+         '<div class="rec"><strong>Efecto en el circuito de recompensa:</strong> ' + badge(d.intensidadRecompensa) + '</div>' +
          '<h3>Zonas afectadas</h3><div class="chips">' +
          Object.entries(d.regiones).sort((a, b) => ['alta', 'media', 'baja'].indexOf(a[1].intensidad) - ['alta', 'media', 'baja'].indexOf(b[1].intensidad))
            .map(([id, e]) => '<button type="button" class="chip" data-r="' + id + '" style="border-left:6px solid ' + D.intensidades[e.intensidad].color + '">' + REG[id].nombre + '</button>').join('') +
          '</div><div class="nota">' + D.avisoIntensidad + '</div>' +
          '<p class="tipo" style="margin-top:12px">Toca una zona (en el cerebro o aquí) para ver el detalle.</p>';
+  } else if (estado.verTipo) {
+    const t = D.tiposDroga.find(x => x.id === estado.tipoVisible);
+    h = '<h2>' + t.nombre + '</h2><div class="tipo">Tipo de sustancia</div><p style="margin-top:10px">' + t.descripcion + '</p>' +
+        '<h3>Sustancias</h3><div class="chips">' +
+        D.drogas.filter(x => x.tipoId === t.id).map(x => '<button type="button" class="chip" data-d="' + x.id + '">' + x.nombre + '</button>').join('') +
+        '</div><p class="tipo" style="margin-top:12px">Elige una sustancia, arriba o aquí, para ver qué zonas afecta.</p>';
   } else {
     const t = D.cerebroTotal;
     h = '<h2>' + t.titulo + '</h2><div class="tipo">' + D.leyendaContenido + '</div>' +
@@ -996,7 +1607,8 @@ function pintarFicha() {
   }
   c.innerHTML = h;
   c.querySelectorAll('[data-r]').forEach(b => b.addEventListener('click', () => seleccionar(b.dataset.r)));
-  $('fichaTitulo').textContent = r ? r.nombre : d ? d.nombre : D.cerebroTotal.titulo;
+  c.querySelectorAll('[data-d]').forEach(b => b.addEventListener('click', () => elegirDroga(b.dataset.d)));
+  $('fichaTitulo').textContent = r ? r.nombre : d ? d.nombre : estado.verTipo ? D.tiposDroga.find(x => x.id === estado.tipoVisible).nombre : D.cerebroTotal.titulo;
 }
 
 function chipsHijos(r, d) {
@@ -1009,7 +1621,7 @@ function refrescarUI() {
   actualizarAspecto();
   ptr.sucio = true;
   construirArbol($('buscar').value);
-  document.querySelectorAll('#drogas .btn[data-id]').forEach(b => b.classList.toggle('activo', b.dataset.id === estado.droga));
+  pintarFilaDrogas();
   leyendaIntensidad();
   pintarFicha();
   $('btnAtras').disabled = $('btnAtrasF').disabled = historial.length === 0;
@@ -1024,21 +1636,24 @@ function guardarHistorial() {
 function atras() {
   const u = historial.pop();
   if (!u) return;
-  estado.region = u.region; estado.droga = u.droga;
+  estado.region = u.region; estado.droga = u.droga; estado.verTipo = false;
+  if (u.droga) estado.tipoVisible = DROGA[u.droga].tipoId;
   refrescarUI();
   if (u.region) { enfocar(REG[u.region]); desplegarFicha(); }
   else verInicial();
 }
 
 function seleccionar(id) {
+  estado.verTipo = false;
   if (id !== estado.region) guardarHistorial();
   estado.region = id;
   refrescarUI();
   enfocar(REG[id]);
   desplegarFicha();
 }
-function elegirDroga(id) { if (id !== estado.droga) guardarHistorial(); estado.droga = id; refrescarUI(); }
+function elegirDroga(id) { if (id) estado.verTipo = false; if (id !== estado.droga) guardarHistorial(); estado.droga = id; if (id) estado.tipoVisible = DROGA[id].tipoId; refrescarUI(); }
 function mostrarTodo() {
+  estado.verTipo = false;
   if (estado.region !== null || estado.droga !== null) guardarHistorial();
   estado.region = null; estado.droga = null; refrescarUI();
   verInicial();
@@ -1162,11 +1777,15 @@ $('btnTema').addEventListener('click', () => {
    9. ARRANQUE
    ========================================================= */
 $('aviso').textContent = D.leyendaContenido;
+// Encabezado: título, subtítulo – créditos (versión). En celular se oculta el subtítulo para que quepan los créditos.
+const E = D.encabezado;
+$('tTitulo').textContent = E.titulo;
+$('tSub').innerHTML = '<span class="t-tema">' + E.subtitulo + ' – </span><span class="t-cred">' + E.creditos + '</span> <span class="t-ver">(' + E.version + ')</span>';
 if (window.matchMedia('(max-width: 900px)').matches) { $('ficha').classList.add('plegada'); $('fichaFlecha').textContent = '▴'; }
 aplicarTema(document.documentElement.dataset.tema, false);
 const M = D.modelo;
-$('pie').innerHTML = 'Modelo 3D: ' + M.cita + ' <a href="' + M.url + '" target="_blank" rel="noopener">' + M.textoEnlace + '</a>. ' +
-  M.base + ' Atribución: ' + M.atribucion + ' Licencia <a href="' + M.urlLicencia + '" target="_blank" rel="noopener">' + M.licencia + '</a>.';
+$('pie').innerHTML = '<div class="derechos">' + D.derechos + '</div><div class="modelo-cita">Modelo 3D: ' + M.cita + ' <a href="' + M.url + '" target="_blank" rel="noopener">' + M.textoEnlace + '</a>. ' +
+  M.base + ' Atribución: ' + M.atribucion + ' Licencia <a href="' + M.urlLicencia + '" target="_blank" rel="noopener">' + M.licencia + '</a>.</div>';
 construirDrogas();
 ajustarTamano();
 camera.position.copy(VISTA_INICIAL.pos);   // ya con el tamaño real de la vista
