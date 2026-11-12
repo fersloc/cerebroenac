@@ -34,12 +34,45 @@
   "derechos": "© 2026 Ximena Rodríguez Martínez. Todos los derechos reservados.",
   "cerebroTotal": {
     "titulo": "Cerebro total",
+    "tituloPanel": "¿Cómo afectan las drogas al cerebro?",
     "intro": [
-      "El cerebro es el órgano que controla lo que pensamos, sentimos y hacemos. Está formado por muchas zonas, y cada una cumple una función distinta.",
-      "Las drogas actúan sobre estas zonas y cambian la forma en que el cerebro funciona: pueden afectar las emociones, la memoria, el control de los impulsos y la sensación de recompensa.",
-      "Una idea para recordar: el acelerador (el circuito de recompensa) se pone muy fuerte y el freno (la corteza prefrontal) se debilita.",
-      "Toca una zona del cerebro, o elígela en la lista, para saber qué hace. También puedes elegir una droga arriba para ver qué zonas se ven más afectadas."
-    ]
+      "El cerebro es el órgano que regula gran parte de lo que pensamos, sentimos y hacemos. Está formado por diferentes estructuras y circuitos que trabajan de manera coordinada y cumplen funciones específicas.",
+      "Las drogas actúan sobre estos circuitos, modificando la comunicación entre las neuronas y alterando el funcionamiento cerebral. Esto puede afectar las emociones, la memoria, la capacidad de tomar decisiones, el control de los impulsos y los mecanismos de recompensa."
+    ],
+    "ideaClave": {
+      "titulo": "Una idea clave para recordar: el cerebro tiene un acelerador y un freno",
+      "texto": "Podemos utilizar esta analogía para comprender cómo interactúan algunos de los principales circuitos cerebrales:",
+      "puntos": [
+        {
+          "t": "El acelerador: circuito de recompensa.",
+          "d": "Participa en la motivación, el aprendizaje y la búsqueda de experiencias gratificantes o placenteras."
+        },
+        {
+          "t": "El freno: corteza prefrontal.",
+          "d": "Contribuye a regular los impulsos, evaluar las consecuencias de nuestras acciones y tomar decisiones."
+        }
+      ],
+      "cierre": "Con el consumo de drogas, este equilibrio puede alterarse. La motivación por consumir puede adquirir mayor relevancia, mientras que la capacidad de controlar los impulsos y evaluar las consecuencias puede verse comprometida."
+    },
+    "actividad": "Actividad interactiva: Toca una zona del cerebro o selecciónala en la lista para conocer sus funciones. También puedes elegir una droga para observar qué estructuras y circuitos cerebrales pueden verse afectados.",
+    "precision": {
+      "titulo": "Una precisión importante para comprender las adicciones",
+      "texto": "Tres conceptos fundamentales:",
+      "puntos": [
+        {
+          "t": "Neuroplasticidad:",
+          "d": "el cerebro tiene capacidad para modificar sus conexiones y funcionamiento como consecuencia de las experiencias y del consumo de sustancias. Estos cambios no son necesariamente permanentes: también pueden producirse procesos de recuperación y reorganización cerebral mediante la abstinencia y el tratamiento."
+        },
+        {
+          "t": "Aprendizaje asociado al consumo:",
+          "d": "personas, lugares, emociones y situaciones pueden convertirse en estímulos condicionados que desencadenan deseos intensos de consumir (craving), incluso después de períodos de abstinencia."
+        },
+        {
+          "t": "Diferencias en los mecanismos de acción de las drogas:",
+          "d": "no todas las sustancias actúan de la misma manera sobre el sistema nervioso central. El alcohol, la cocaína, el cannabis, los opioides y las benzodiacepinas presentan mecanismos de acción y efectos neurobiológicos diferentes."
+        }
+      ]
+    }
   },
   "modelo": {
     "archivoComprimido": "cerebro_comprimido.glb",
@@ -292,152 +325,6 @@
   ],
   "drogas": [
     {
-      "id": "cocaina",
-      "nombre": "Cocaína",
-      "tipoId": "estimulante",
-      "tipo": "Estimulante",
-      "resumen": "Aumenta mucho la dopamina en el circuito de recompensa y deja menos freno para el control de impulsos. Se enseña junto con la pasta base como «estimulantes».",
-      "intensidadRecompensa": "alta",
-      "regiones": {
-        "nucleo_accumbens": {
-          "intensidad": "alta",
-          "frase": "La dopamina sube con fuerza y produce una sensación intensa de recompensa."
-        },
-        "area_tegmental_ventral": {
-          "intensidad": "alta",
-          "frase": "Es el origen de la dopamina que la droga hace actuar con más fuerza."
-        },
-        "corteza_prefrontal": {
-          "intensidad": "media",
-          "frase": "Se debilita el control de impulsos y la toma de decisiones."
-        },
-        "amigdala": {
-          "intensidad": "media",
-          "frase": "Se asocia con ansiedad y con el deseo de consumir ante ciertas señales."
-        },
-        "hipocampo": {
-          "intensidad": "baja",
-          "frase": "Ayuda a recordar los lugares y situaciones ligados al consumo."
-        }
-      }
-    },
-    {
-      "id": "pasta_base",
-      "nombre": "Pasta base",
-      "tipoId": "estimulante",
-      "tipo": "Estimulante",
-      "resumen": "Sustancia fumada de efecto breve e intenso. Activa con mucha fuerza el circuito de recompensa y se asocia a un deseo de consumir muy fuerte. Se enseña junto con la cocaína como «estimulantes».",
-      "intensidadRecompensa": "alta",
-      "regiones": {
-        "nucleo_accumbens": {
-          "intensidad": "alta",
-          "frase": "La dopamina sube de golpe y deja un deseo intenso de repetir el consumo."
-        },
-        "area_tegmental_ventral": {
-          "intensidad": "alta",
-          "frase": "Es el origen de la dopamina que la sustancia hace actuar con fuerza."
-        },
-        "corteza_prefrontal": {
-          "intensidad": "alta",
-          "frase": "Se debilita el control de impulsos y la capacidad de decidir."
-        },
-        "amigdala": {
-          "intensidad": "media",
-          "frase": "Se asocia con ansiedad, irritabilidad y malestar entre un consumo y otro."
-        },
-        "hipocampo": {
-          "intensidad": "baja",
-          "frase": "Ayuda a recordar los lugares y situaciones ligados al consumo."
-        }
-      }
-    },
-    {
-      "id": "metanfetaminas",
-      "nombre": "Metanfetaminas",
-      "tipoId": "estimulante",
-      "tipo": "Estimulante",
-      "resumen": "Estimulante muy potente que mantiene al cerebro acelerado y activa con fuerza el circuito de recompensa. El consumo repetido afecta el control de los impulsos.",
-      "intensidadRecompensa": "alta",
-      "regiones": {
-        "nucleo_accumbens": {
-          "intensidad": "alta",
-          "frase": "La dopamina sube mucho y se siente una recompensa muy intensa."
-        },
-        "area_tegmental_ventral": {
-          "intensidad": "alta",
-          "frase": "Libera grandes cantidades de dopamina."
-        },
-        "corteza_prefrontal": {
-          "intensidad": "alta",
-          "frase": "Se debilitan el juicio y el control de los impulsos."
-        },
-        "amigdala": {
-          "intensidad": "media",
-          "frase": "Puede producir ansiedad, desconfianza e irritabilidad."
-        },
-        "hipocampo": {
-          "intensidad": "media",
-          "frase": "Puede afectar la memoria y la atención."
-        }
-      }
-    },
-    {
-      "id": "extasis",
-      "nombre": "Éxtasis",
-      "tipoId": "estimulante",
-      "tipo": "Estimulante",
-      "resumen": "Estimulante que también cambia el ánimo: produce sensación de cercanía y bienestar, y muchas veces después vienen bajones de ánimo.",
-      "intensidadRecompensa": "media",
-      "regiones": {
-        "nucleo_accumbens": {
-          "intensidad": "media",
-          "frase": "Produce bienestar y ganas de repetir."
-        },
-        "area_tegmental_ventral": {
-          "intensidad": "media",
-          "frase": "Participa en la liberación de dopamina."
-        },
-        "corteza_prefrontal": {
-          "intensidad": "media",
-          "frase": "Afecta el juicio y la atención."
-        },
-        "amigdala": {
-          "intensidad": "media",
-          "frase": "Cambia las emociones: más cercanía y menos miedo; después puede venir angustia."
-        },
-        "hipocampo": {
-          "intensidad": "media",
-          "frase": "Puede afectar la memoria."
-        }
-      }
-    },
-    {
-      "id": "nicotina",
-      "nombre": "Tabaco y nicotina (vapeo)",
-      "tipoId": "estimulante",
-      "tipo": "Estimulante",
-      "resumen": "La nicotina está en el tabaco y en los vapeadores. Activa el circuito de recompensa de forma moderada, pero el hábito se repite muchas veces al día y genera dependencia.",
-      "intensidadRecompensa": "media",
-      "regiones": {
-        "nucleo_accumbens": {
-          "intensidad": "media",
-          "frase": "Da una recompensa breve que se repite muchas veces al día."
-        },
-        "area_tegmental_ventral": {
-          "intensidad": "media",
-          "frase": "Participa en la liberación de dopamina que refuerza el hábito."
-        },
-        "corteza_prefrontal": {
-          "intensidad": "baja",
-          "frase": "Se asocia con la dificultad para controlar las ganas de fumar o vapear."
-        },
-        "amigdala": {
-          "intensidad": "baja",
-          "frase": "Se usa para calmar la tensión; sin ella aparece irritabilidad."
-        }
-      }
-    },
-    {
       "id": "alcohol",
       "nombre": "Alcohol",
       "tipoId": "depresora",
@@ -473,7 +360,8 @@
           "intensidad": "baja",
           "frase": "Interviene de forma indirecta en la liberación de dopamina."
         }
-      }
+      },
+      "origen": "Psicólogo"
     },
     {
       "id": "benzodiacepinas",
@@ -507,13 +395,14 @@
           "intensidad": "baja",
           "frase": "Activan poco el circuito de recompensa, pero igual dan dependencia."
         }
-      }
+      },
+      "origen": "Psicólogo"
     },
     {
       "id": "heroina",
       "nombre": "Heroína",
-      "tipoId": "opioide",
-      "tipo": "Opioide",
+      "tipoId": "depresora",
+      "tipo": "Depresora",
       "resumen": "Droga ilegal derivada de la morfina. Produce una sensación intensa de calma y bienestar, y genera dependencia con facilidad.",
       "intensidadRecompensa": "alta",
       "regiones": {
@@ -537,13 +426,15 @@
           "intensidad": "media",
           "frase": "Disminuyen el juicio y el control de los impulsos."
         }
-      }
+      },
+      "familia": "Opioides",
+      "origen": "Psicólogo"
     },
     {
       "id": "morfina",
       "nombre": "Morfina",
-      "tipoId": "opioide",
-      "tipo": "Opioide",
+      "tipoId": "depresora",
+      "tipo": "Depresora",
       "resumen": "Medicamento muy potente contra el dolor intenso. Usado sin control médico produce dependencia.",
       "intensidadRecompensa": "alta",
       "regiones": {
@@ -567,13 +458,15 @@
           "intensidad": "media",
           "frase": "Disminuyen el juicio y el control de los impulsos."
         }
-      }
+      },
+      "familia": "Opioides",
+      "origen": "Psicólogo"
     },
     {
       "id": "fentanilo",
       "nombre": "Fentanilo",
-      "tipoId": "opioide",
-      "tipo": "Opioide",
+      "tipoId": "depresora",
+      "tipo": "Depresora",
       "resumen": "Opioide muchísimo más potente que la morfina, usado en medicina contra el dolor. Una cantidad mínima de más puede detener la respiración.",
       "intensidadRecompensa": "alta",
       "regiones": {
@@ -597,13 +490,15 @@
           "intensidad": "media",
           "frase": "Disminuyen el juicio y el control de los impulsos."
         }
-      }
+      },
+      "familia": "Opioides",
+      "origen": "Psicólogo"
     },
     {
       "id": "tramadol",
       "nombre": "Tramadol",
-      "tipoId": "opioide",
-      "tipo": "Opioide",
+      "tipoId": "depresora",
+      "tipo": "Depresora",
       "resumen": "Medicamento contra el dolor que pertenece a la familia de los opioides. Se subestima su riesgo por ser un analgésico.",
       "intensidadRecompensa": "media",
       "regiones": {
@@ -627,14 +522,16 @@
           "intensidad": "baja",
           "frase": "Disminuyen el juicio y el control de los impulsos."
         }
-      }
+      },
+      "familia": "Opioides",
+      "origen": "Borrador mío"
     },
     {
       "id": "codeina",
-      "nombre": "Codeína (tónicos para la tos)",
-      "tipoId": "opioide",
-      "tipo": "Opioide",
-      "resumen": "Opioide suave presente en algunos tónicos o jarabes para la tos. Parece inofensivo por ser un medicamento, pero puede dar dependencia.",
+      "nombre": "Codeína (jarabes para la tos)",
+      "tipoId": "depresora",
+      "tipo": "Depresora",
+      "resumen": "Opioide suave presente en algunos jarabes para la tos. Parece inofensivo por ser un medicamento, pero puede dar dependencia.",
       "intensidadRecompensa": "media",
       "regiones": {
         "tronco_encefalico": {
@@ -658,14 +555,355 @@
           "frase": "Disminuyen el juicio y el control de los impulsos."
         }
       },
-      "origen": "profesora"
+      "origen": "Profesora",
+      "familia": "Opioides"
+    },
+    {
+      "id": "cocaina",
+      "nombre": "Cocaína",
+      "tipoId": "estimulante",
+      "tipo": "Estimulante",
+      "resumen": "Aumenta mucho la dopamina en el circuito de recompensa y deja menos freno para el control de impulsos. Se enseña junto con la pasta base como «estimulantes».",
+      "intensidadRecompensa": "alta",
+      "regiones": {
+        "nucleo_accumbens": {
+          "intensidad": "alta",
+          "frase": "La dopamina sube con fuerza y produce una sensación intensa de recompensa."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "alta",
+          "frase": "Es el origen de la dopamina que la droga hace actuar con más fuerza."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Se debilita el control de impulsos y la toma de decisiones."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Se asocia con ansiedad y con el deseo de consumir ante ciertas señales."
+        },
+        "hipocampo": {
+          "intensidad": "baja",
+          "frase": "Ayuda a recordar los lugares y situaciones ligados al consumo."
+        }
+      },
+      "origen": "Psicólogo"
+    },
+    {
+      "id": "pasta_base",
+      "nombre": "Pasta base",
+      "tipoId": "estimulante",
+      "tipo": "Estimulante",
+      "resumen": "Sustancia fumada de efecto breve e intenso. Activa con mucha fuerza el circuito de recompensa y se asocia a un deseo de consumir muy fuerte. Se enseña junto con la cocaína como «estimulantes».",
+      "intensidadRecompensa": "alta",
+      "regiones": {
+        "nucleo_accumbens": {
+          "intensidad": "alta",
+          "frase": "La dopamina sube de golpe y deja un deseo intenso de repetir el consumo."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "alta",
+          "frase": "Es el origen de la dopamina que la sustancia hace actuar con fuerza."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "alta",
+          "frase": "Se debilita el control de impulsos y la capacidad de decidir."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Se asocia con ansiedad, irritabilidad y malestar entre un consumo y otro."
+        },
+        "hipocampo": {
+          "intensidad": "baja",
+          "frase": "Ayuda a recordar los lugares y situaciones ligados al consumo."
+        }
+      },
+      "origen": "Documento Drogas.md"
+    },
+    {
+      "id": "anfetaminas",
+      "nombre": "Anfetaminas",
+      "tipoId": "estimulante",
+      "tipo": "Estimulante",
+      "resumen": "Estimulantes que aumentan la alerta, la energía y la actividad del cerebro, y activan con fuerza el circuito de recompensa.",
+      "intensidadRecompensa": "alta",
+      "regiones": {
+        "nucleo_accumbens": {
+          "intensidad": "alta",
+          "frase": "La dopamina sube y se siente una recompensa intensa."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "alta",
+          "frase": "Libera mucha dopamina."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Se debilitan el juicio y el control de los impulsos."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Puede producir ansiedad e irritabilidad."
+        },
+        "hipocampo": {
+          "intensidad": "baja",
+          "frase": "Puede afectar la atención y la memoria."
+        }
+      },
+      "origen": "Psicólogo"
+    },
+    {
+      "id": "metanfetaminas",
+      "nombre": "Metanfetaminas",
+      "tipoId": "estimulante",
+      "tipo": "Estimulante",
+      "resumen": "Estimulante muy potente que mantiene al cerebro acelerado y activa con fuerza el circuito de recompensa. El consumo repetido afecta el control de los impulsos.",
+      "intensidadRecompensa": "alta",
+      "regiones": {
+        "nucleo_accumbens": {
+          "intensidad": "alta",
+          "frase": "La dopamina sube mucho y se siente una recompensa muy intensa."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "alta",
+          "frase": "Libera grandes cantidades de dopamina."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "alta",
+          "frase": "Se debilitan el juicio y el control de los impulsos."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Puede producir ansiedad, desconfianza e irritabilidad."
+        },
+        "hipocampo": {
+          "intensidad": "media",
+          "frase": "Puede afectar la memoria y la atención."
+        }
+      },
+      "origen": "Psicólogo"
+    },
+    {
+      "id": "extasis",
+      "nombre": "Éxtasis",
+      "tipoId": "estimulante",
+      "tipo": "Estimulante",
+      "resumen": "Estimulante que también cambia el ánimo: produce sensación de cercanía y bienestar, y muchas veces después vienen bajones de ánimo.",
+      "intensidadRecompensa": "media",
+      "regiones": {
+        "nucleo_accumbens": {
+          "intensidad": "media",
+          "frase": "Produce bienestar y ganas de repetir."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "media",
+          "frase": "Participa en la liberación de dopamina."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Afecta el juicio y la atención."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Cambia las emociones: más cercanía y menos miedo; después puede venir angustia."
+        },
+        "hipocampo": {
+          "intensidad": "media",
+          "frase": "Puede afectar la memoria."
+        }
+      },
+      "origen": "Documento Drogas.md"
+    },
+    {
+      "id": "nicotina",
+      "nombre": "Nicotina (tabaco y vapeo)",
+      "tipoId": "estimulante",
+      "tipo": "Estimulante",
+      "resumen": "La nicotina está en el tabaco y en los vapeadores. Activa el circuito de recompensa de forma moderada, pero el hábito se repite muchas veces al día y genera dependencia.",
+      "intensidadRecompensa": "media",
+      "regiones": {
+        "nucleo_accumbens": {
+          "intensidad": "media",
+          "frase": "Da una recompensa breve que se repite muchas veces al día."
+        },
+        "area_tegmental_ventral": {
+          "intensidad": "media",
+          "frase": "Participa en la liberación de dopamina que refuerza el hábito."
+        },
+        "corteza_prefrontal": {
+          "intensidad": "baja",
+          "frase": "Se asocia con la dificultad para controlar las ganas de fumar o vapear."
+        },
+        "amigdala": {
+          "intensidad": "baja",
+          "frase": "Se usa para calmar la tensión; sin ella aparece irritabilidad."
+        }
+      },
+      "origen": "Psicólogo"
+    },
+    {
+      "id": "cafeina",
+      "nombre": "Cafeína",
+      "tipoId": "estimulante",
+      "tipo": "Estimulante",
+      "resumen": "Estimulante muy común, presente en el café, el té y las bebidas energéticas. Aumenta la alerta y quita el sueño; en cantidades altas puede producir nerviosismo.",
+      "intensidadRecompensa": "baja",
+      "regiones": {
+        "corteza_prefrontal": {
+          "intensidad": "baja",
+          "frase": "Aumenta la alerta y la atención."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "baja",
+          "frase": "Activa poco el circuito de recompensa."
+        },
+        "amigdala": {
+          "intensidad": "baja",
+          "frase": "En cantidades altas puede aumentar el nerviosismo."
+        }
+      },
+      "origen": "Psicólogo"
+    },
+    {
+      "id": "lsd",
+      "nombre": "LSD",
+      "tipoId": "perturbadora",
+      "tipo": "Perturbadora",
+      "resumen": "Sustancia sintética muy potente que produce alucinaciones y cambios intensos de percepción y de ánimo.",
+      "intensidadRecompensa": "baja",
+      "regiones": {
+        "corteza_prefrontal": {
+          "intensidad": "alta",
+          "frase": "Cambia la forma de percibir y de pensar."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Puede producir miedo, angustia o euforia intensos."
+        },
+        "hipocampo": {
+          "intensidad": "baja",
+          "frase": "Puede alterar el recuerdo de lo vivido."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "baja",
+          "frase": "Activan poco el circuito de recompensa."
+        }
+      },
+      "origen": "Psicólogo"
+    },
+    {
+      "id": "hongos",
+      "nombre": "Hongos psilocibios",
+      "tipoId": "perturbadora",
+      "tipo": "Perturbadora",
+      "resumen": "Hongos que contienen psilocibina. Producen alucinaciones y cambios en el ánimo y en la percepción del tiempo y del entorno.",
+      "intensidadRecompensa": "baja",
+      "regiones": {
+        "corteza_prefrontal": {
+          "intensidad": "alta",
+          "frase": "Cambia la forma de percibir y de pensar."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Puede producir miedo, angustia o euforia intensos."
+        },
+        "hipocampo": {
+          "intensidad": "baja",
+          "frase": "Puede alterar el recuerdo de lo vivido."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "baja",
+          "frase": "Activan poco el circuito de recompensa."
+        }
+      },
+      "origen": "Psicólogo"
+    },
+    {
+      "id": "mezcalina",
+      "nombre": "Mezcalina",
+      "tipoId": "perturbadora",
+      "tipo": "Perturbadora",
+      "resumen": "Sustancia que se obtiene de algunos cactus, como el peyote. Produce alucinaciones y cambios en la percepción y en el pensamiento.",
+      "intensidadRecompensa": "baja",
+      "regiones": {
+        "corteza_prefrontal": {
+          "intensidad": "alta",
+          "frase": "Cambia la forma de percibir y de pensar."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Puede producir miedo, angustia o euforia intensos."
+        },
+        "hipocampo": {
+          "intensidad": "baja",
+          "frase": "Puede alterar el recuerdo de lo vivido."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "baja",
+          "frase": "Activan poco el circuito de recompensa."
+        }
+      },
+      "origen": "Psicólogo"
+    },
+    {
+      "id": "dmt",
+      "nombre": "DMT",
+      "tipoId": "perturbadora",
+      "tipo": "Perturbadora",
+      "resumen": "Sustancia presente en algunas plantas. Produce alucinaciones intensas y cambios profundos en la percepción, el pensamiento y la sensación de realidad.",
+      "intensidadRecompensa": "baja",
+      "regiones": {
+        "corteza_prefrontal": {
+          "intensidad": "alta",
+          "frase": "Cambia la forma de percibir y de pensar."
+        },
+        "amigdala": {
+          "intensidad": "media",
+          "frase": "Puede producir miedo, angustia o euforia intensos."
+        },
+        "hipocampo": {
+          "intensidad": "baja",
+          "frase": "Puede alterar el recuerdo de lo vivido."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "baja",
+          "frase": "Activan poco el circuito de recompensa."
+        }
+      },
+      "origen": "Psicólogo"
+    },
+    {
+      "id": "ketamina",
+      "nombre": "Ketamina",
+      "tipoId": "perturbadora",
+      "tipo": "Perturbadora",
+      "resumen": "Es un anestésico disociativo, no un alucinógeno clásico como el LSD. Produce sensación de desconexión del cuerpo y del entorno, y altera la percepción y la memoria.",
+      "intensidadRecompensa": "baja",
+      "regiones": {
+        "corteza_prefrontal": {
+          "intensidad": "media",
+          "frase": "Altera el pensamiento y la capacidad de decidir."
+        },
+        "hipocampo": {
+          "intensidad": "media",
+          "frase": "Afecta la memoria."
+        },
+        "amigdala": {
+          "intensidad": "baja",
+          "frase": "Puede causar ansiedad o miedo intenso en algunas personas."
+        },
+        "nucleo_accumbens": {
+          "intensidad": "baja",
+          "frase": "Activa poco el circuito de recompensa."
+        }
+      },
+      "origen": "Psicólogo"
     },
     {
       "id": "cannabis",
       "nombre": "Cannabis",
-      "tipoId": "alteradora",
-      "tipo": "Alteradora de la percepción",
-      "resumen": "Afecta sobre todo la memoria, la atención y la percepción; también influye en las emociones y en la motivación.",
+      "tipoId": "perturbadora",
+      "tipo": "Perturbadora",
+      "resumen": "Se clasifica habitualmente como sustancia perturbadora, aunque puede presentar efectos sedantes. Afecta sobre todo la memoria, la atención y la percepción; también influye en las emociones y en la motivación.",
       "intensidadRecompensa": "media",
       "regiones": {
         "hipocampo": {
@@ -692,39 +930,14 @@
           "intensidad": "baja",
           "frase": "Interviene de forma indirecta en la liberación de dopamina."
         }
-      }
-    },
-    {
-      "id": "ketamina",
-      "nombre": "Ketamina",
-      "tipoId": "alteradora",
-      "tipo": "Alteradora de la percepción",
-      "resumen": "Es un anestésico que, usado como droga, produce sensación de desconexión del cuerpo y del entorno, y altera la percepción y la memoria.",
-      "intensidadRecompensa": "baja",
-      "regiones": {
-        "corteza_prefrontal": {
-          "intensidad": "media",
-          "frase": "Altera el pensamiento y la capacidad de decidir."
-        },
-        "hipocampo": {
-          "intensidad": "media",
-          "frase": "Afecta la memoria."
-        },
-        "amigdala": {
-          "intensidad": "baja",
-          "frase": "Puede causar ansiedad o miedo intenso en algunas personas."
-        },
-        "nucleo_accumbens": {
-          "intensidad": "baja",
-          "frase": "Activa poco el circuito de recompensa."
-        }
-      }
+      },
+      "origen": "Psicólogo"
     },
     {
       "id": "tusi",
       "nombre": "Tusi",
-      "tipoId": "alteradora",
-      "tipo": "Alteradora de la percepción",
+      "tipoId": "perturbadora",
+      "tipo": "Perturbadora",
       "resumen": "Mezcla de composición variable e incierta (a menudo con ketamina y otras sustancias). Como no se sabe qué contiene, sus efectos y riesgos son difíciles de predecir.",
       "intensidadRecompensa": "media",
       "regiones": {
@@ -744,66 +957,14 @@
           "intensidad": "baja",
           "frase": "Puede cambiar el ánimo y producir ansiedad."
         }
-      }
-    },
-    {
-      "id": "hongos",
-      "nombre": "Hongos alucinógenos",
-      "tipoId": "alucinogeno",
-      "tipo": "Alucinógeno",
-      "resumen": "Hongos que contienen psilocibina. Producen alucinaciones y cambios en el ánimo y en la percepción del tiempo y del entorno.",
-      "intensidadRecompensa": "baja",
-      "regiones": {
-        "corteza_prefrontal": {
-          "intensidad": "alta",
-          "frase": "Cambia la forma de percibir y de pensar."
-        },
-        "amigdala": {
-          "intensidad": "media",
-          "frase": "Puede producir miedo, angustia o euforia intensos."
-        },
-        "hipocampo": {
-          "intensidad": "baja",
-          "frase": "Puede alterar el recuerdo de lo vivido."
-        },
-        "nucleo_accumbens": {
-          "intensidad": "baja",
-          "frase": "Activan poco el circuito de recompensa."
-        }
       },
-      "origen": "profesora"
-    },
-    {
-      "id": "lsd",
-      "nombre": "LSD",
-      "tipoId": "alucinogeno",
-      "tipo": "Alucinógeno",
-      "resumen": "Sustancia sintética muy potente que produce alucinaciones y cambios intensos de percepción y de ánimo.",
-      "intensidadRecompensa": "baja",
-      "regiones": {
-        "corteza_prefrontal": {
-          "intensidad": "alta",
-          "frase": "Cambia la forma de percibir y de pensar."
-        },
-        "amigdala": {
-          "intensidad": "media",
-          "frase": "Puede producir miedo, angustia o euforia intensos."
-        },
-        "hipocampo": {
-          "intensidad": "baja",
-          "frase": "Puede alterar el recuerdo de lo vivido."
-        },
-        "nucleo_accumbens": {
-          "intensidad": "baja",
-          "frase": "Activan poco el circuito de recompensa."
-        }
-      }
+      "origen": "Documento Drogas.md"
     },
     {
       "id": "floripondio",
       "nombre": "Floripondio",
-      "tipoId": "alucinogeno",
-      "tipo": "Alucinógeno",
+      "tipoId": "perturbadora",
+      "tipo": "Perturbadora",
       "resumen": "Planta cuyas flores contienen sustancias que producen alucinaciones, confusión y delirio. Es muy peligrosa porque es difícil calcular qué cantidad intoxica.",
       "intensidadRecompensa": "baja",
       "regiones": {
@@ -824,39 +985,59 @@
           "frase": "Activa poco el circuito de recompensa."
         }
       },
-      "origen": "profesora"
+      "origen": "Profesora"
     }
   ],
   "tiposDroga": [
     {
-      "id": "estimulante",
-      "nombre": "Estimulantes",
-      "descripcion": "Aceleran el cerebro: dan energía y activan mucho el circuito de recompensa."
-    },
-    {
       "id": "depresora",
       "nombre": "Depresoras",
-      "descripcion": "Enlentecen el cerebro: dan calma o sueño y bajan la actividad de muchas zonas."
+      "titulo": "Drogas depresoras",
+      "descripcion": "Disminuyen o ralentizan determinadas funciones del sistema nervioso central.",
+      "efectos": [
+        "Relajación y sedación.",
+        "Somnolencia.",
+        "Disminución de los reflejos y del tiempo de reacción.",
+        "En dosis elevadas, depresión respiratoria y pérdida de conciencia."
+      ],
+      "ejemplos": "Alcohol, benzodiacepinas y opioides (heroína, morfina y fentanilo).",
+      "extra": "Los opioides son una familia farmacológica de sustancias con efectos predominantemente depresores del sistema nervioso central.",
+      "nota": "Esta clasificación es orientativa y considera los efectos predominantes. Algunas sustancias pueden producir efectos mixtos o diferentes según la dosis, la vía de administración, el contexto y las características de la persona."
     },
     {
-      "id": "opioide",
-      "nombre": "Opioides",
-      "origen": "profesora",
-      "descripcion": "Familia de sustancias que calman el dolor y producen calma y bienestar. Están en drogas como la heroína y también en medicamentos, por ejemplo algunos tónicos o jarabes para la tos con codeína."
+      "id": "estimulante",
+      "nombre": "Estimulantes",
+      "titulo": "Drogas estimulantes",
+      "descripcion": "Aumentan la actividad del sistema nervioso central.",
+      "efectos": [
+        "Mayor estado de alerta y activación.",
+        "Euforia.",
+        "Aumento de la frecuencia cardíaca y presión arterial.",
+        "Disminución del apetito.",
+        "Alteraciones del sueño."
+      ],
+      "ejemplos": "Cocaína, anfetaminas, metanfetaminas, nicotina y cafeína.",
+      "nota": "Esta clasificación es orientativa y considera los efectos predominantes. Algunas sustancias pueden producir efectos mixtos o diferentes según la dosis, la vía de administración, el contexto y las características de la persona."
     },
     {
-      "id": "alteradora",
-      "nombre": "Alteradoras de la percepción",
-      "corto": "Alteradoras",
-      "descripcion": "Cambian la forma de percibir la realidad, la memoria y las emociones."
-    },
-    {
-      "id": "alucinogeno",
-      "nombre": "Alucinógenos",
-      "origen": "profesora",
-      "descripcion": "Familia de sustancias que producen alucinaciones y cambian la percepción. Pueden venir de hongos o de plantas, como el floripondio, o ser sintéticas, como el LSD."
+      "id": "perturbadora",
+      "nombre": "Perturbadoras",
+      "titulo": "Drogas perturbadoras del sistema nervioso central",
+      "descripcion": "Modifican la percepción, el pensamiento, la conciencia y la interpretación de la realidad.",
+      "efectos": [
+        "Distorsiones perceptivas.",
+        "Alteraciones visuales y auditivas.",
+        "Modificaciones de la percepción del tiempo y el espacio.",
+        "Cambios en el pensamiento y la experiencia subjetiva.",
+        "En determinadas circunstancias, pueden producir experiencias de tipo psicótico."
+      ],
+      "ejemplos": "LSD, hongos psilocibios, mezcalina y DMT. También pueden incorporarse otras sustancias con efectos perturbadores, como la ketamina y el cannabis, teniendo presente que sus mecanismos de acción y perfiles farmacológicos son diferentes.",
+      "extra": "El cannabis no es estrictamente un depresor: se clasifica habitualmente como sustancia perturbadora, aunque puede presentar efectos sedantes. La ketamina es un anestésico disociativo, no un alucinógeno clásico como el LSD.",
+      "nota": "Esta clasificación es orientativa y considera los efectos predominantes. Algunas sustancias pueden producir efectos mixtos o diferentes según la dosis, la vía de administración, el contexto y las características de la persona."
     }
-  ]
+  ],
+  "etiquetaRol": "Su papel en el consumo",
+  "notaRol": "Describe cómo participa esta zona en el consumo de sustancias. No significa que ocurra solo cuando hay una adicción."
 }
 </script>
 
@@ -916,6 +1097,9 @@
   :root[data-tema="dark"] .btn.tipo { color: #fff; border-color: #3b3a9e; }
   #filaDrogas .btn.activo { background: #ff6b00; border-color: #ff6b00; color: #14143a; }
   .rec { margin-top: 10px; line-height: 1.8; }
+  .lista-ficha { margin: 6px 0 10px; padding-left: 22px; line-height: 1.5; }
+  .lista-ficha li { margin-bottom: 6px; }
+  .caja-clara { background: var(--panel2); border-left: 5px solid var(--acento); border-radius: 12px; padding: 10px 14px; margin: 14px 0; line-height: 1.5; }
   .t-corto { display: none; }
   .drogas .fila { scrollbar-width: none; }
   .drogas .fila::-webkit-scrollbar { display: none; }
@@ -1575,7 +1759,7 @@ function pintarFicha() {
     h += '<h2>' + r.nombre + '</h2><div class="tipo">' + (r.tipo === 'grupo' ? 'Grupo de zonas' : 'Región') + (r.parte ? ' · parte de ' + REG[r.parte].nombre : '') + '</div>';
     if (r.nota) h += '<div class="nota">⚠ ' + r.nota + '</div>';
     h += '<h3>Dónde está</h3><p>' + r.donde + '</p><h3>Qué hace</h3><p>' + r.funcion + '</p>' +
-         '<h3>Neurotransmisor principal</h3><p>' + r.neurotransmisor + '</p><h3>Rol en la adicción</h3><p>' + r.adiccion + '</p>';
+         '<h3>Neurotransmisor principal</h3><p>' + r.neurotransmisor + '</p><h3>' + D.etiquetaRol + '</h3><p>' + r.adiccion + '</p><p class="tipo" style="margin-top:6px;font-size:13px">' + D.notaRol + '</p>';
     if (d) {
       const e = efectoDe(d, r.id);
       h += '<div class="caja"><strong>Efecto de ' + d.nombre + '</strong><div style="margin:8px 0">' +
@@ -1586,7 +1770,7 @@ function pintarFicha() {
     }
     if (r.tipo === 'grupo' && !d) h += chipsHijos(r, null);
   } else if (d) {
-    h += '<h2>' + d.nombre + '</h2><div class="tipo">' + d.tipo + '</div><p style="margin-top:10px">' + d.resumen + '</p>' +
+    h += '<h2>' + d.nombre + '</h2><div class="tipo">' + d.tipo + (d.familia ? ' · familia de los ' + d.familia.toLowerCase() : '') + '</div><p style="margin-top:10px">' + d.resumen + '</p>' +
          '<div class="rec"><strong>Efecto en el circuito de recompensa:</strong> ' + badge(d.intensidadRecompensa) + '</div>' +
          '<h3>Zonas afectadas</h3><div class="chips">' +
          Object.entries(d.regiones).sort((a, b) => ['alta', 'media', 'baja'].indexOf(a[1].intensidad) - ['alta', 'media', 'baja'].indexOf(b[1].intensidad))
@@ -1595,20 +1779,30 @@ function pintarFicha() {
          '<p class="tipo" style="margin-top:12px">Toca una zona (en el cerebro o aquí) para ver el detalle.</p>';
   } else if (estado.verTipo) {
     const t = D.tiposDroga.find(x => x.id === estado.tipoVisible);
-    h = '<h2>' + t.nombre + '</h2><div class="tipo">Tipo de sustancia</div><p style="margin-top:10px">' + t.descripcion + '</p>' +
-        '<h3>Sustancias</h3><div class="chips">' +
+    h = '<h2>' + (t.titulo || t.nombre) + '</h2><div class="tipo">Según sus efectos predominantes en el sistema nervioso central</div><p style="margin-top:10px">' + t.descripcion + '</p>' +
+        (t.efectos ? '<h3>Efectos principales</h3><ul class="lista-ficha">' + t.efectos.map(x => '<li>' + x + '</li>').join('') + '</ul>' : '') +
+        (t.ejemplos ? '<h3>Ejemplos</h3><p>' + t.ejemplos + '</p>' : '') +
+        (t.extra ? '<p style="margin-top:8px">' + t.extra + '</p>' : '') +
+        (t.nota ? '<div class="nota">' + t.nota + '</div>' : '') +
+        '<h3>Sustancias en esta página</h3><div class="chips">' +
         D.drogas.filter(x => x.tipoId === t.id).map(x => '<button type="button" class="chip" data-d="' + x.id + '">' + x.nombre + '</button>').join('') +
         '</div><p class="tipo" style="margin-top:12px">Elige una sustancia, arriba o aquí, para ver qué zonas afecta.</p>';
   } else {
-    const t = D.cerebroTotal;
-    h = '<h2>' + t.titulo + '</h2><div class="tipo">' + D.leyendaContenido + '</div>' +
+    const t = D.cerebroTotal, k = t.ideaClave, pr = t.precision;
+    h = '<h2>' + (t.tituloPanel || t.titulo) + '</h2><div class="tipo">' + D.leyendaContenido + '</div>' +
         t.intro.map(p => '<p style="margin-top:12px">' + p + '</p>').join('') +
+        '<h3>' + k.titulo + '</h3><p>' + k.texto + '</p>' +
+        '<ul class="lista-ficha">' + k.puntos.map(x => '<li><strong>' + x.t + '</strong> ' + x.d + '</li>').join('') + '</ul>' +
+        '<p>' + k.cierre + '</p>' +
+        '<div class="caja-clara">' + t.actividad + '</div>' +
+        '<h3>' + pr.titulo + '</h3><p>' + pr.texto + '</p>' +
+        '<ol class="lista-ficha">' + pr.puntos.map(x => '<li><strong>' + x.t + '</strong> ' + x.d + '</li>').join('') + '</ol>' +
         '<p class="tipo" style="margin-top:14px">Gira con el mouse, acerca con la rueda y mueve con el botón derecho.</p>';
   }
   c.innerHTML = h;
   c.querySelectorAll('[data-r]').forEach(b => b.addEventListener('click', () => seleccionar(b.dataset.r)));
   c.querySelectorAll('[data-d]').forEach(b => b.addEventListener('click', () => elegirDroga(b.dataset.d)));
-  $('fichaTitulo').textContent = r ? r.nombre : d ? d.nombre : estado.verTipo ? D.tiposDroga.find(x => x.id === estado.tipoVisible).nombre : D.cerebroTotal.titulo;
+  $('fichaTitulo').textContent = r ? r.nombre : d ? d.nombre : estado.verTipo ? D.tiposDroga.find(x => x.id === estado.tipoVisible).nombre : (D.cerebroTotal.tituloPanel || D.cerebroTotal.titulo);
 }
 
 function chipsHijos(r, d) {
