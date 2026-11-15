@@ -528,10 +528,10 @@
     },
     {
       "id": "codeina",
-      "nombre": "Codeína (jarabes para la tos)",
+      "nombre": "Codeína (jarabes antitusivos)",
       "tipoId": "depresora",
       "tipo": "Depresora",
-      "resumen": "Opioide suave presente en algunos jarabes para la tos. Parece inofensivo por ser un medicamento, pero puede dar dependencia.",
+      "resumen": "Opioide suave presente en algunos jarabes antitusivos. Parece inofensivo por ser un medicamento, pero puede dar dependencia.",
       "intensidadRecompensa": "media",
       "regiones": {
         "tronco_encefalico": {
@@ -1088,22 +1088,26 @@
   /* --- Aviso y barra de drogas --- */
   .aviso { grid-area: aviso; background: var(--aviso-bg); color: var(--aviso-tx); padding: 6px 12px;
     font-size: 14px; text-align: center; font-weight: 700; border-bottom: 1px solid var(--aviso-bd); }
-  .drogas { grid-area: drogas; display: flex; flex-direction: column; gap: 6px; padding: 8px 16px;
-    background: var(--panel); border-bottom: 1px solid var(--borde); overflow-x: auto; }
-  .drogas .fila { display: flex; gap: 8px; align-items: center; overflow-x: auto; }
-  .btn.tipo { min-height: 34px; padding: 2px 14px; font-size: 14px; background: #3b3a9e; border-color: #3b3a9e; color: #fff; }
+  .drogas { grid-area: drogas; display: flex; flex-direction: column; padding: 8px 16px 10px;
+    background: var(--panel); border-bottom: 1px solid var(--borde); }
+  /* Pestañas: los tipos son pestañas azules; la elegida se pone naranja y se une con el panel de sustancias por una línea naranja */
+  .drogas .fila-tabs { display: flex; gap: 6px; align-items: flex-end; }
+  .btn.tipo { min-height: 38px; padding: 4px 18px; font-size: 15px; background: #3b3a9e; border: 3px solid #3b3a9e; border-bottom: 0;
+    border-radius: 14px 14px 0 0; color: #fff; }
   .btn.tipo:hover { background: #2f2e86; border-color: #2f2e86; }
-  .btn.tipo.sel { border-color: #ff6b00; box-shadow: inset 0 -4px 0 #ff6b00; }
+  .btn.tipo.sel, .btn.tipo.sel:hover { background: #ff6b00; border-color: #ff6b00; color: #14143a; position: relative; z-index: 2; margin-bottom: -3px; padding-bottom: 7px; }
   :root[data-tema="dark"] .btn.tipo { color: #fff; border-color: #3b3a9e; }
-  #filaDrogas .btn.activo { background: #ff6b00; border-color: #ff6b00; color: #14143a; }
+  :root[data-tema="dark"] .btn.tipo.sel { color: #14143a; border-color: #ff6b00; }
+  .panel-drogas { display: flex; gap: 8px; align-items: center; overflow-x: auto; scrollbar-width: none;
+    border: 3px solid #ff6b00; border-radius: 14px; background: rgba(255,107,0,.09); padding: 10px 12px; }
+  .panel-drogas::-webkit-scrollbar { display: none; }
+  .panel-drogas[hidden] { display: none; }
+  .panel-drogas[data-pos="0"] { border-top-left-radius: 0; }
+  #filaDrogas .btn.activo { background: #3b3a9e; border-color: #3b3a9e; color: #fff; }
   .rec { margin-top: 10px; line-height: 1.8; }
   .lista-ficha { margin: 6px 0 10px; padding-left: 22px; line-height: 1.5; }
   .lista-ficha li { margin-bottom: 6px; }
   .caja-clara { background: var(--panel2); border-left: 5px solid var(--acento); border-radius: 12px; padding: 10px 14px; margin: 14px 0; line-height: 1.5; }
-  .t-corto { display: none; }
-  .drogas .fila { scrollbar-width: none; }
-  .drogas .fila::-webkit-scrollbar { display: none; }
-  .drogas .etiqueta { color: var(--texto2); font-size: 14px; font-weight: 600; white-space: nowrap; }
   /* Botones "pastilla", como en la web de ENAC */
   .btn { background: transparent; border: 2px solid var(--acento); color: var(--enlace); border-radius: 999px;
     padding: 6px 16px; min-height: 40px; white-space: nowrap; font-weight: 700; }
@@ -1199,10 +1203,10 @@
     #btnTema { padding: 4px 12px; min-height: 38px; }
     #btnTema .txt { display: none; }
     .aviso { font-size: 11px; padding: 3px 8px; line-height: 1.25; }
-    .drogas { padding: 4px 10px; gap: 4px; }
-    .btn.tipo { min-height: 34px; font-size: 13px; padding: 2px 10px; }
-    .t-largo { display: none; }
-    .t-corto { display: inline; }
+    .drogas { padding: 6px 10px 8px; }
+    .drogas .fila-tabs { gap: 4px; }
+    .btn.tipo { min-height: 36px; font-size: 13px; padding: 3px 9px; flex: 1 1 0; min-width: 0; }
+    .panel-drogas { padding: 8px 8px; gap: 6px; }
     .btn { min-height: 40px; padding: 4px 14px; font-size: 15px; }
     .btn-regiones, .btn-atras { display: none; }
 
@@ -1266,14 +1270,11 @@
   <div class="aviso" id="aviso"></div>
 
   <div class="drogas" id="drogas" role="group" aria-label="Elegir droga">
-    <div class="fila" id="filaTipos">
+    <div class="fila-tabs" id="filaTipos" role="tablist" aria-label="Tipos de droga">
       <button class="btn btn-regiones" id="btnRegiones" type="button">☰ Regiones</button>
-      <span class="etiqueta">Tipo:</span>
-    </div>
-    <div class="fila" id="filaDrogas">
-      <span class="etiqueta">Droga:</span>
       <button class="btn btn-atras" id="btnAtras" type="button" disabled aria-label="Volver a la vista anterior">← Atrás</button>
     </div>
+    <div class="panel-drogas" id="filaDrogas" role="tabpanel" aria-label="Sustancias del tipo elegido" hidden></div>
   </div>
 
   <aside class="lista" id="lista" aria-label="Regiones del cerebro">
@@ -1711,33 +1712,42 @@ function construirArbol(filtro = '') {
   if (!n) cont.innerHTML = '<div class="vacio">No hay regiones con ese nombre.</div>';
 }
 
-estado.tipoVisible = D.tiposDroga[0].id; estado.verTipo = false;
+estado.tipoVisible = null; estado.verTipo = false;   // al entrar solo se ven los tipos
 function construirDrogas() {
   const fila = $('filaTipos');
   D.tiposDroga.forEach(t => {
     const b = document.createElement('button');
-    b.type = 'button'; b.className = 'btn tipo'; b.dataset.tipo = t.id; b.setAttribute('aria-label', t.nombre);
-    b.innerHTML = '<span class="t-largo">' + t.nombre + '</span><span class="t-corto">' + (t.corto || t.nombre) + '</span>';
-    b.addEventListener('click', () => { estado.tipoVisible = t.id; estado.verTipo = true; refrescarUI(); });
-    fila.appendChild(b);
+    b.type = 'button'; b.className = 'btn tipo'; b.dataset.tipo = t.id; b.textContent = t.nombre;
+    b.setAttribute('role', 'tab');
+    b.addEventListener('click', () => {
+      // tocar la pestaña elegida la cierra; tocar otra la abre
+      const cerrar = estado.tipoVisible === t.id;
+      estado.tipoVisible = cerrar ? null : t.id; estado.verTipo = !cerrar;
+      refrescarUI();
+    });
+    fila.insertBefore(b, $('btnAtras'));
   });
   pintarFilaDrogas();
 }
-/* Muestra las sustancias del tipo elegido (primer nivel: tipo; segundo nivel: sustancia) */
+/* Pestañas (tipos) arriba y, debajo, el panel con las sustancias de la pestaña elegida */
 function pintarFilaDrogas() {
-  const fila = $('filaDrogas');
-  fila.querySelectorAll('.btn[data-id]').forEach(b => b.remove());
+  const panel = $('filaDrogas');
+  panel.querySelectorAll('.btn[data-id]').forEach(b => b.remove());
+  panel.hidden = !estado.tipoVisible;
+  const tabs = [...document.querySelectorAll('#filaTipos .btn.tipo')];
+  tabs.forEach(b => { const on = b.dataset.tipo === estado.tipoVisible; b.classList.toggle('sel', on); b.setAttribute('aria-selected', on); });
+  if (!estado.tipoVisible) return;
+  panel.dataset.pos = tabs.findIndex(b => b.dataset.tipo === estado.tipoVisible);
   D.drogas.filter(d => d.tipoId === estado.tipoVisible).forEach(d => {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'btn'; b.dataset.id = d.id; b.textContent = d.nombre;
     b.addEventListener('click', () => elegirDroga(estado.droga === d.id ? null : d.id));
-    fila.insertBefore(b, $('btnAtras'));
+    panel.appendChild(b);
   });
-  document.querySelectorAll('#filaTipos .btn.tipo').forEach(b => b.classList.toggle('sel', b.dataset.tipo === estado.tipoVisible));
-  fila.querySelectorAll('.btn[data-id]').forEach(b => b.classList.toggle('activo', b.dataset.id === estado.droga));
-  // en celular las filas se deslizan: se deja a la vista el tipo y la sustancia elegidos
-  const aVer = [document.querySelector('#filaTipos .btn.tipo.sel'), fila.querySelector('.btn.activo')];
-  aVer.forEach(b => { if (b) b.scrollIntoView({ inline: 'center', block: 'nearest' }); });
+  panel.querySelectorAll('.btn[data-id]').forEach(b => b.classList.toggle('activo', b.dataset.id === estado.droga));
+  // en celular el panel se desliza: se deja a la vista la sustancia elegida
+  const act = panel.querySelector('.btn.activo');
+  if (act) act.scrollIntoView({ inline: 'center', block: 'nearest' });
 }
 
 function leyendaIntensidad() {
@@ -1847,7 +1857,7 @@ function seleccionar(id) {
 }
 function elegirDroga(id) { if (id) estado.verTipo = false; if (id !== estado.droga) guardarHistorial(); estado.droga = id; if (id) estado.tipoVisible = DROGA[id].tipoId; refrescarUI(); }
 function mostrarTodo() {
-  estado.verTipo = false;
+  estado.verTipo = false; estado.tipoVisible = null;
   if (estado.region !== null || estado.droga !== null) guardarHistorial();
   estado.region = null; estado.droga = null; refrescarUI();
   verInicial();
