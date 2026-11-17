@@ -1372,6 +1372,8 @@ controls.autoRotateSpeed = 1.2;
 
 /* Render bajo demanda: se dibuja solo si algo cambió (cámara, colores, opacidad, tema, tamaño). Ahorra batería y calor en el celular. */
 let renderPendiente = 3;
+const dbg = { pickMs: 0, cpuMs: 0, frames: 0, renders: 0, t: 0, fps: 0, rps: 0, dtMax: 0, ultimo: 0 };   // contadores para ?debug=1
+let ultimoMovCam = -1e9;   // última vez que la cámara se movió (rueda, arrastre, inercia o animación): el hover espera a que se calme
 function pedirRender() { renderPendiente = 3; }
 
 let autoEncuadre = true, tReencuadre = null;
@@ -1601,7 +1603,13 @@ function animarAspecto() {
     if (Math.abs(objetivo - u.opActual) < 0.003) u.opActual = objetivo;
     mat.opacity = u.opActual;
     mat.visible = u.opActual > 0.01;
-    mat.depthWrite = u.opActual > 0.97;
+    // Opaca (>= 99 %): va por la pasada opaca (más barata y sin ordenar). Entre 90 % y 99 %: se mezcla pero escribe profundidad
+    // (con menos de 97 % y sin profundidad aparecían grietas oscuras por el orden de mezcla). Bajo 90 %: se ve a través.
+    // OJO: el shader depende de "transparent" (define OPAQUE, que fuerza alfa = 1). Al cambiarlo hay que pedir material.needsUpdate,
+    // si no la pieza conserva el shader opaco y el deslizador de opacidad no se nota. Las dos variantes se precompilan al cargar.
+    const transp = u.opActual < 0.99;
+    if (mat.transparent !== transp) { mat.transparent = transp; mat.needsUpdate = true; }
+    mat.depthWrite = u.opActual >= 0.9;
     u.colActual.lerp(u.colObjetivo, 0.2);
     if (Math.abs(u.colActual.r - u.colObjetivo.r) + Math.abs(u.colActual.g - u.colObjetivo.g) + Math.abs(u.colActual.b - u.colObjetivo.b) < 0.003) u.colActual.copy(u.colObjetivo);
     mat.color.copy(u.colActual);
@@ -1634,7 +1642,7 @@ function pasoCamara(now) {
   if (k >= 1) anim = null;
 }
 renderer.domElement.addEventListener('pointerdown', () => { anim = null; autoEncuadre = false; });
-renderer.domElement.addEventListener('wheel', () => { anim = null; }, { passive: true });
+renderer.domElement.addEventListener('wheel', () => { anim = null; ultimoMovCam = performance.now(); }, { passive: true });
 
 function verInicial() { autoEncuadre = true; irA(VISTA_INICIAL.pos, VISTA_INICIAL.target); }
 function reencuadrar() {
@@ -1667,7 +1675,7 @@ renderer.domElement.addEventListener('pointerup', (e) => {
   if (mov > 6 || dt > 600) return;           // fue un arrastre, no un clic
   const r = renderer.domElement.getBoundingClientRect();
   rayo.setFromCamera(new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera);
-  const golpe = rayo.intersectObjects(candidatosPick(), false)[0];
+  const golpe = pickMasCercano(candidatosPick());
   if (golpe) seleccionar(golpe.object.userData.principal.id);
 });
 
@@ -1915,6 +1923,27 @@ let ultimoRayoHover = 0;
 /* Solo se pueden tocar las piezas visibles y seleccionables; las "fantasma" se atraviesan */
 function candidatosPick() { return mallas.filter(m => m.userData.pickable && m.material.visible); }
 
+/* Pieza más cercana bajo el rayo `rayo` (ya apuntado). Antes se intersectaban todos los triángulos de las 174 piezas (~9 ms).
+   Ahora: 1) se descartan las piezas cuya caja envolvente no toca el rayo; 2) se prueban de la más cercana a la más lejana
+   y se corta cuando la siguiente caja ya queda detrás del impacto encontrado. */
+const _cajaPick = new THREE.Box3(), _ptPick = new THREE.Vector3();
+function pickMasCercano(lista) {
+  const cand = [];
+  for (const m of lista) {
+    _cajaPick.copy(m.geometry.boundingBox).applyMatrix4(m.matrixWorld);
+    if (_cajaPick.containsPoint(rayo.ray.origin)) cand.push({ m, d: 0 });
+    else if (rayo.ray.intersectBox(_cajaPick, _ptPick)) cand.push({ m, d: _ptPick.distanceTo(rayo.ray.origin) });
+  }
+  cand.sort((a, b) => a.d - b.d);
+  let mejor = null;
+  for (const c of cand) {
+    if (mejor && c.d > mejor.distance) break;
+    const h = rayo.intersectObject(c.m, false)[0];
+    if (h && (!mejor || h.distance < mejor.distance)) mejor = h;
+  }
+  return mejor;
+}
+
 function fijarHoverRegion(region) {
   hoverRegion = region;
   cv.style.cursor = region ? 'pointer' : '';
@@ -1944,11 +1973,15 @@ cv.addEventListener('pointerleave', () => { ptr.dentro = false; fijarHoverRegion
 /* El raycast corre como máximo una vez cada 70 ms y solo si el mouse se movió */
 function pasoHover(now) {
   if (!ptr.dentro || ptr.arrastrando) return;
+  // mientras la cámara se mueve (zoom con rueda, inercia, animación) el hover se pausa y se apaga; se reanuda 150 ms después de que se calma
+  if (now - ultimoMovCam < 150) { if (hoverRegion) fijarHoverRegion(null); ptr.sucio = true; return; }
   if (!ptr.sucio || now - ultimoRayoHover < 70) return;
   ptr.sucio = false; ultimoRayoHover = now;
   const r = cv.getBoundingClientRect();
   rayo.setFromCamera(new THREE.Vector2(((ptr.cx - r.left) / r.width) * 2 - 1, -((ptr.cy - r.top) / r.height) * 2 + 1), camera);
-  const golpe = rayo.intersectObjects(candidatosPick(), false)[0];
+  const tPick = performance.now();
+  const golpe = pickMasCercano(candidatosPick());
+  dbg.pickMs = performance.now() - tPick;
   const region = golpe ? golpe.object.userData.principal : null;
   if (region !== hoverRegion) fijarHoverRegion(region);
 }
@@ -1960,6 +1993,21 @@ const TEMAS = {
   dark:  { fondo: '#0f0f26', fantasma: '#6a7090', corteza: '#d9c3bb', opFantasma: 0.09, hemi: 1.1, dir: 1.6, ico: '☀', txt: ' Modo día' },
   light: { fondo: '#e9eaf2', fantasma: '#7d86a0', corteza: '#c4a095', opFantasma: 0.12, hemi: 1.5, dir: 1.1, ico: '🌙', txt: ' Modo noche' }
 };
+/* Compila de antemano las dos variantes del shader (opaca y transparente) para que el primer cambio de opacidad no trabe.
+   Los materiales de prueba NO se liberan: así las dos variantes quedan en caché durante toda la sesión. */
+const _materialesPrecompilados = [];
+function precompilarMateriales() {
+  if (!mallas.length) return;
+  const mat = new THREE.MeshStandardMaterial({ color: 0x888888, roughness: 0.55, metalness: 0, transparent: true, opacity: 1, side: THREE.FrontSide });
+  const prueba = new THREE.Mesh(mallas[0].geometry, mat);
+  raiz.add(prueba);
+  renderer.compile(scene, camera);                       // variante transparente
+  mat.transparent = false; mat.needsUpdate = true;
+  renderer.compile(scene, camera);                       // variante opaca
+  raiz.remove(prueba);
+  _materialesPrecompilados.push(mat);
+}
+
 function aplicarTema(t, guardar) {
   const T = TEMAS[t] || TEMAS.dark;
   document.documentElement.dataset.tema = TEMAS[t] ? t : 'dark';
@@ -1997,22 +2045,55 @@ camera.position.copy(VISTA_INICIAL.pos);   // ya con el tamaño real de la vista
 await cargarModelo();
 asociarRegiones();
 refrescarUI();
+precompilarMateriales();
 mallas.forEach(m => { m.userData.opActual = m.userData.opObjetivo; m.userData.colActual.copy(m.userData.colObjetivo); });
+
+/* Panel de diagnóstico: solo aparece si la dirección lleva ?debug=1 (para medir en el PC de cada persona). */
+const DEBUG = new URLSearchParams(location.search).has('debug');
+let panelDbg = null;
+if (DEBUG) {
+  panelDbg = document.createElement('div');
+  panelDbg.style.cssText = 'position:fixed;left:8px;bottom:60px;z-index:99;background:rgba(0,0,0,.8);color:#9f9;font:12px/1.4 monospace;padding:6px 10px;border-radius:8px;pointer-events:none;white-space:pre';
+  document.body.appendChild(panelDbg);
+}
+function actualizarPanelDbg(now) {
+  if (now - dbg.t < 500) return;
+  const seg = (now - dbg.t) / 1000;
+  dbg.fps = dbg.frames / seg; dbg.rps = dbg.renders / seg;
+  const i = renderer.info.render;
+  panelDbg.textContent = [
+    'fps (rAF): ' + dbg.fps.toFixed(0) + '   dibujos/s: ' + dbg.rps.toFixed(0),
+    'cuadro más largo: ' + dbg.dtMax.toFixed(0) + ' ms',
+    'CPU del bucle: ' + dbg.cpuMs.toFixed(1) + ' ms   hover: ' + dbg.pickMs.toFixed(1) + ' ms',
+    'draw calls: ' + i.calls + '   triángulos: ' + i.triangles,
+    'canvas: ' + renderer.domElement.width + '×' + renderer.domElement.height + '  (pixelRatio ' + renderer.getPixelRatio() + ')',
+    'distancia cámara: ' + camera.position.distanceTo(controls.target).toFixed(2)
+  ].join('\n');
+  dbg.t = now; dbg.frames = 0; dbg.renders = 0; dbg.dtMax = 0;
+}
 
 function bucle(now) {
   requestAnimationFrame(bucle);
+  const tIni = DEBUG ? performance.now() : 0;
   const habiaAnim = !!anim;
   pasoCamara(now);
   pasoHover(now);
   const cambio = animarAspecto();
   const moviendo = controls.update();      // true mientras la cámara se mueve (arrastre, inercia, rotación automática)
+  if (habiaAnim || moviendo) ultimoMovCam = now;
   if (habiaAnim || cambio || moviendo || renderPendiente > 0) {
     renderer.render(scene, camera);
     if (renderPendiente > 0) renderPendiente--;
+    dbg.renders++;
+  }
+  if (DEBUG) {
+    dbg.cpuMs = performance.now() - tIni; dbg.frames++;
+    if (dbg.ultimo) dbg.dtMax = Math.max(dbg.dtMax, now - dbg.ultimo);
+    dbg.ultimo = now; actualizarPanelDbg(now);
   }
 }
 requestAnimationFrame(bucle);
-window.__cerebro = { estado, seleccionar, elegirDroga, REG, mallas, renderer, scene, camera, aplicarTema, fijarHoverRegion }; // ayuda para pruebas en consola
+window.__cerebro = { estado, seleccionar, elegirDroga, REG, mallas, renderer, scene, camera, aplicarTema, fijarHoverRegion, pickMasCercano, candidatosPick, rayo, controls }; // ayuda para pruebas en consola
 </script>
 </body>
 </html>
